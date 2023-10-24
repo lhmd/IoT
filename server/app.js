@@ -3,7 +3,8 @@ const koa = require('koa')
 const path = require('path');
 const static_file = require('koa-static')
 const Router=require('koa-router')
-const bodyParser = require('koa-body')
+// const bodyParser = require('koa-body')
+const bodyParser = require('koa-bodyparser'); 
 const Sequelize = require('sequelize')
 const {Op} = require("sequelize");
 const router= new Router()
@@ -57,9 +58,10 @@ const User = sequelize.define('user', {
 });
 User.sync({force:false})
 
-app.use(async (ctx, next) => {
-    await bodyParser()(ctx, next);
-});
+// app.use(async (ctx, next) => {
+//     await bodyParser()(ctx, next);
+// });
+app.use(bodyParser());
 app.use(router.routes())
 const cors=require("koa2-cors")
 app.use(cors());
@@ -75,48 +77,42 @@ app.use(async (ctx, next) => {
 });
 
 
-router.post('/hotel_search', async (ctx, next) => {
+router.post('/loginSubmit', async (ctx, next) => {
     try {
+        console.log("111111111111")
         const body = ctx.request.body;
-        console.log(body)
-        const whereClause = {};
-        if (body.hotel_name) {
-            whereClause.name = {
-                [Op.like]: '%' + body.hotel_name + '%'
-            };
-        }
-        if (body.location) {
-            whereClause.location = {
-                [Op.like]: '%' + body.location + '%'
-            };
-        }
-        let hotel = await Hotel.findAll({
-            where: whereClause
-        });
-        let room_min_price = [];
-        for (let i = 0; i < hotel.length; i++) {
-            let room = await Room.findAll({
-                where: {
-                    hotel_id: hotel[i].hotel_id
-                }
-            });
-            let min_price = 1000000;
-            for (let j = 0; j < room.length; j++) {
-                if (room[j].price < min_price) {
-                    min_price = room[j].price;
-                }
+        console.log(body);
+
+        // 查询数据库以验证用户名和密码
+        const user = await User.findOne({
+            where: {
+                username: body.username,
+                password: body.password,  // 这里假设密码存储明文，实际项目中通常需要进行密码哈希
             }
-            room_min_price.push(min_price);
+        });
+
+        if (user) {
+            // 登录成功
+            ctx.body = {
+                success: true,  // 登录成功标志
+                user: user,     // 用户信息
+            };
+            console.log('登录成功');
+        } else {
+            // 登录失败
+            ctx.body = {
+                success: false,  // 登录失败标志
+                message: '用户名或密码错误',  // 错误消息
+            };
+            console.log('登录失败');
         }
-        ctx.body = {
-            hotel: hotel,
-            room_min_price: room_min_price
-        };
-        console.log(ctx.body.hotel);
         await next();
     } catch (e) {
-        ctx.body = 'error';
-        console.log('hotel_search error');
+        ctx.body = {
+            success: false,  // 登录失败标志
+            message: '登录失败，发生错误',  // 错误消息
+        };
+        console.log('发生错误', e);
     }
 });
 
@@ -124,4 +120,4 @@ router.post('/hotel_search', async (ctx, next) => {
 // app.use(static_file(path.join(__dirname, 'static')));
 app.use(router.allowedMethods())
 app.listen(5173)
-// console.log('success')
+console.log('success')

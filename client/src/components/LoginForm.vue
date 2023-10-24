@@ -2,7 +2,7 @@
 import { reactive, ref, onMounted, onBeforeUnmount } from 'vue'
 import type { FormProps } from 'element-plus'
 import { useRouter } from 'vue-router'
-import axios
+import axios from 'axios'
 
 const Router = useRouter()
 const labelPosition = ref<FormProps['labelPosition']>('top')
@@ -26,15 +26,27 @@ onBeforeUnmount(() => {
 })
 
 
-const formLabelAlign = reactive({
-  name: '',
-  region: '',
-  type: '',
+const UserLogin = reactive({
+  username: '',
+  password: '',
 })
 
-function onSubmit() {
-  
+async function onSubmit() {
+  try {
+    console.log(UserLogin);
+    const response = await axios.post('/loginSubmit', UserLogin);
+    console.log('后端返回的消息：', response.data);
+  } catch (error) {
+    console.error('请求出错：', error);
+  }
 }
+
+// const onSubmit=()=>{
+//     axios.post('/loginSubmit',UserLogin).then(function(response){
+//           console.log(response)
+//     })
+//     // hotel_init()
+// }
 
 function onRegister() {
   Router.push('/register')
@@ -50,17 +62,14 @@ function onRegister() {
     <el-form
     :label-position="labelPosition"
     label-width="100px"
-    :model="formLabelAlign"
+    :model="UserLogin"
     :size="size"
   >
-    <el-form-item label="Name">
-      <el-input v-model="formLabelAlign.name" />
+    <el-form-item label="姓名">
+      <el-input v-model="UserLogin.username" />
     </el-form-item>
-    <el-form-item label="Activity zone">
-      <el-input v-model="formLabelAlign.region" />
-    </el-form-item>
-    <el-form-item label="Activity form">
-      <el-input v-model="formLabelAlign.type" />
+    <el-form-item label="密码">
+      <el-input v-model="UserLogin.password" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">登录</el-button>
