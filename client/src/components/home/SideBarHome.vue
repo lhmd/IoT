@@ -9,42 +9,35 @@
       active-text-color="#ffd04b"
       router
     >
-      <el-menu-item index="/Workspace/">查询统计</el-menu-item>
-      <el-menu-item index="/Workspace/">设备信息</el-menu-item>
-      <el-menu-item index="/Workspace/">消息记录</el-menu-item>
-      <el-menu-item index="/Workspace/">设备配置</el-menu-item>
+      <el-menu-item index="/home">最新消息</el-menu-item>
+      <el-menu-item index="/home/profile">个人中心</el-menu-item>
+      <el-menu-item index="/about">系统信息</el-menu-item>
     </el-menu>
   </div>
 
   <div class="sidebar" v-if="!isMobile">
     <el-menu
-      default-active="2"
+      default-active="1"
       class="el-menu-vertical-demo"
       popper-effect="light"
       router
     >
-      <el-menu-item index="/Workspace/">
+      <el-menu-item index="/home">
         <template #title>
-          <el-icon><PieChart /></el-icon>
-          <span>查询统计</span>
+          <el-icon><message /></el-icon>
+          <span>最新消息</span>
         </template>
       </el-menu-item>
-      <el-menu-item index="/Workspace/">
+      <el-menu-item index="/home/profile">
         <template #title>
-          <el-icon><location /></el-icon>
-          <span>设备信息</span>
+          <el-icon><user /></el-icon>
+          <span>个人中心</span>
         </template>
       </el-menu-item>
-      <el-menu-item index="/Workspace/">
+      <el-menu-item index="/about">
         <template #title>
-          <el-icon><printer /></el-icon>
-          <span>消息记录</span>
-        </template>
-      </el-menu-item>
-      <el-menu-item index="/Workspace/">
-        <template #title>
-          <el-icon><setting /></el-icon>
-          <span>设备配置</span>
+          <el-icon><monitor /></el-icon>
+          <span>系统信息</span>
         </template>
       </el-menu-item>
     </el-menu>
@@ -52,11 +45,10 @@
 </template>
 
 <script setup lang="ts">
-import { PieChart } from "@element-plus/icons-vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const isMobile = ref(false);
 const activeIndex = ref("1");
+const isMobile = ref(false);
 
 const checkMobile = () => {
   isMobile.value = window.innerWidth < 768;

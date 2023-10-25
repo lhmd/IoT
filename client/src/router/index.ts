@@ -32,6 +32,19 @@ const router = createRouter({
       },
     },
     {
+      path: "/home/profile",
+      name: "profile",
+      component: HomeView,
+      meta: {
+        requiresAuth: true, // Mark this route as requiring authentication
+      },
+    },
+    {
+      path: "/about",
+      name: "about",
+      component: HomeView,
+    },
+    {
       path: "/workspace",
       name: "workspace",
       component: WorkspaceView,

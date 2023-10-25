@@ -7,24 +7,7 @@ import axios from "axios";
 
 const Router = useRouter();
 const labelPosition = ref<FormProps["labelPosition"]>("top");
-const isMobile = ref(false);
 const size = ref("middle");
-
-const checkMobile = () => {
-  isMobile.value = window.innerWidth < 768;
-  if (isMobile.value) {
-    labelPosition.value = "top";
-  } else {
-    labelPosition.value = "right";
-  }
-};
-onMounted(() => {
-  checkMobile();
-  window.addEventListener("resize", checkMobile);
-});
-onBeforeUnmount(() => {
-  window.removeEventListener("resize", checkMobile);
-});
 
 const UserRegister = reactive({
   username: "",
@@ -55,7 +38,7 @@ async function onSubmit() {
     console.log(UserRegister);
     const response = await axios.post(
       "http://localhost:3310/registerSubmit",
-      UserRegister
+      UserRegister,
     );
     console.log("后端返回的消息：", response.data);
     var isLogin = response.data.success;
@@ -66,7 +49,7 @@ async function onSubmit() {
       ElMessage.error(response.data.message);
     }
   } catch (error) {
-      ElMessage.error("注册失败");
+    ElMessage.error("注册失败");
     console.error("请求出错：", error);
   }
 }
@@ -76,7 +59,7 @@ async function onSubmit() {
   <div class="login_bckg">
     <img src="../assets/login_bckg.png" alt="" />
   </div>
-  <div class="register_form" :class="{ mobile: isMobile }">
+  <div class="register_form">
     <h3>Sign up</h3>
     <el-form
       :label-position="labelPosition"
@@ -95,17 +78,23 @@ async function onSubmit() {
         :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
         type="password"
       >
-        <el-input v-model="UserRegister.password" type="password"/>
+        <el-input v-model="UserRegister.password" type="password" />
       </el-form-item>
-      <el-form-item 
-      label="确认密码" 
+      <el-form-item
+        label="确认密码"
         type="password"
-      :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]">
-      <el-input v-model="UserRegister.checkPassword" type="password" autocomplete="off" />
-    </el-form-item>
-      <el-form-item 
-      label="邮箱"
-      :rules="[{ required: true, message: '请输入邮箱', trigger: 'blur' }]">
+        :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+      >
+        <el-input
+          v-model="UserRegister.checkPassword"
+          type="password"
+          autocomplete="off"
+        />
+      </el-form-item>
+      <el-form-item
+        label="邮箱"
+        :rules="[{ required: true, message: '请输入邮箱', trigger: 'blur' }]"
+      >
         <el-input v-model="UserRegister.email" />
       </el-form-item>
       <el-form-item label="电话">
@@ -138,8 +127,8 @@ async function onSubmit() {
   width: 100%;
   height: 100%;
 }
-
-.register_form {
+@media screen and (min-width: 1024px) {
+  .register_form {
   position: absolute;
   top: 55vh;
   left: 25vw;
@@ -157,8 +146,10 @@ async function onSubmit() {
   max-width: 40vw;
   min-width: 25vw;
 }
+}
 
-.register_form.mobile {
+@media screen and (max-width: 1024px) {
+  .register_form.mobile {
   position: absolute;
   top: 60vh;
   left: 50vw;
@@ -174,6 +165,10 @@ async function onSubmit() {
     0.5
   ); /* 使用rgba来设置背景颜色并控制半透明度 */
 }
+}
+
+
+
 
 .register_form h3 {
   text-align: center;

@@ -10,24 +10,7 @@ import { useUserStore } from "@/stores/user";
 const userStore = useUserStore();
 const Router = useRouter();
 const labelPosition = ref<FormProps["labelPosition"]>("top");
-const isMobile = ref(false);
 const size = ref("large");
-
-const checkMobile = () => {
-  isMobile.value = window.innerWidth < 768;
-  if (isMobile.value) {
-    labelPosition.value = "top";
-  } else {
-    labelPosition.value = "left";
-  }
-};
-onMounted(() => {
-  checkMobile();
-  window.addEventListener("resize", checkMobile);
-});
-onBeforeUnmount(() => {
-  window.removeEventListener("resize", checkMobile);
-});
 
 const UserLogin = reactive({
   username: "",
@@ -44,7 +27,7 @@ async function onSubmit() {
     // console.log(UserLogin);
     const response = await axios.post(
       "http://localhost:3310/loginSubmit",
-      UserLogin
+      UserLogin,
     );
     // console.log("后端返回的消息：", response.data);
     var isLogin = response.data.success;
@@ -55,7 +38,7 @@ async function onSubmit() {
         response.data.user.email,
         response.data.user.phone,
         response.data.user.gender,
-        response.data.user.address
+        response.data.user.address,
       );
       userStore.setAuthenticationStatus(true);
       ElMessage.success("登录成功，欢迎使用物联网管理系统！"); // Use ElMessage for success message
@@ -64,7 +47,7 @@ async function onSubmit() {
       ElMessage.error("用户名或密码错误"); // Use ElMessage for error message
     }
   } catch (error) {
-      ElMessage.error("登录失败");
+    ElMessage.error("登录失败");
     console.error("请求出错：", error);
   }
 }
@@ -78,7 +61,7 @@ function onRegister() {
   <div class="login_bckg">
     <img src="../assets/login_bckg.png" alt="" />
   </div>
-  <div class="login_form" :class="{ mobile: isMobile }">
+  <div class="login_form">
     <h3>Sign in</h3>
     <el-form
       :label-position="labelPosition"
@@ -97,7 +80,7 @@ function onRegister() {
         :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
         type="password"
       >
-        <el-input v-model="UserLogin.password" type="password"/>
+        <el-input v-model="UserLogin.password" type="password" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">登录</el-button>
@@ -119,8 +102,8 @@ function onRegister() {
   width: 100%;
   height: 100%;
 }
-
-.login_form {
+@media screen and (min-width: 1024px) {
+  .login_form {
   position: absolute;
   top: 55vh;
   left: 25vw;
@@ -138,8 +121,10 @@ function onRegister() {
   max-width: 40vw;
   min-width: 25vw;
 }
+}
 
-.login_form.mobile {
+@media screen and (max-width: 1024px) {
+  .login_form {
   position: absolute;
   top: 50vh;
   left: 50vw;
@@ -155,6 +140,10 @@ function onRegister() {
     0.5
   ); /* 使用rgba来设置背景颜色并控制半透明度 */
 }
+}
+
+
+
 
 .login_form h3 {
   text-align: center;

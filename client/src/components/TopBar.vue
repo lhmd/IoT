@@ -7,7 +7,13 @@
         </el-icon>
         <h2>物联网管理系统</h2>
       </div>
-      <el-menu class="el-menu-demo" mode="horizontal" :ellipsis="false" router @select="handleSelect">
+      <el-menu
+        class="el-menu-demo"
+        mode="horizontal"
+        :ellipsis="false"
+        router
+        @select="handleSelect"
+      >
         <div class="flex-grow"></div>
         <el-menu-item index="/home" v-if="!isMobile">Home</el-menu-item>
         <el-menu-item index="/workspace" v-if="!isMobile"
@@ -39,7 +45,7 @@ const userStore = useUserStore();
 const isMobile = ref(false);
 
 const checkMobile = () => {
-  isMobile.value = window.innerWidth < 768;
+  isMobile.value = window.innerWidth < 1024;
 };
 
 onMounted(() => {
@@ -57,9 +63,13 @@ onBeforeUnmount(() => {
 
 const handleSelect = (index: string) => {
   if (index === "logout") {
-    userStore.setAuthenticationStatus(false);
-    userStore.clearUserCredentials();
-    ElMessage.success("成功退出登录！");
+    if(!userStore.isAuthenticated) {
+      ElMessage.warning("您还未登录！");
+    } else {
+      userStore.setAuthenticationStatus(false);
+      userStore.clearUserCredentials();
+      ElMessage.success("成功退出登录！");
+    }
     router.push("/login");
   }
 };

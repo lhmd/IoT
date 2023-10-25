@@ -18,7 +18,7 @@ export const useUserStore = defineStore("user", {
       email: string,
       phone: string,
       gender: string,
-      address: string
+      address: string,
     ) {
       this.username = username;
       this.password = password;
