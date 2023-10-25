@@ -63,7 +63,7 @@ onBeforeUnmount(() => {
 
 const handleSelect = (index: string) => {
   if (index === "logout") {
-    if(!userStore.isAuthenticated) {
+    if (!userStore.isAuthenticated) {
       ElMessage.warning("您还未登录！");
     } else {
       userStore.setAuthenticationStatus(false);

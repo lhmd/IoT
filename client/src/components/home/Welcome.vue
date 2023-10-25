@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from "@/stores/user";
 const userStore = useUserStore();
 const name = userStore.username;
 </script>
@@ -8,9 +8,8 @@ const name = userStore.username;
   <div class="welcome-box">
     <h2>您好，{{ name }}，欢迎使用物联网管理系统</h2>
     <el-carousel indicator-position="outside" class="carousel">
-    <el-carousel-item v-for="item in 4" :key="item">
-    </el-carousel-item>
-  </el-carousel>
+      <el-carousel-item v-for="item in 4" :key="item"> </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 

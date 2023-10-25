@@ -104,46 +104,43 @@ function onRegister() {
 }
 @media screen and (min-width: 1024px) {
   .login_form {
-  position: absolute;
-  top: 55vh;
-  left: 25vw;
-  transform: translate(-50%, -50%);
-  width: 30vw;
-  height: 60vh;
-  padding: 20px;
-  border-radius: 10px; /* 圆角半径 */
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.5
-  ); /* 使用rgba来设置背景颜色并控制半透明度 */
-  max-width: 40vw;
-  min-width: 25vw;
-}
+    position: absolute;
+    top: 55vh;
+    left: 25vw;
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    height: 60vh;
+    padding: 20px;
+    border-radius: 10px; /* 圆角半径 */
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.5
+    ); /* 使用rgba来设置背景颜色并控制半透明度 */
+    max-width: 40vw;
+    min-width: 25vw;
+  }
 }
 
 @media screen and (max-width: 1024px) {
   .login_form {
-  position: absolute;
-  top: 50vh;
-  left: 50vw;
-  transform: translate(-50%, -50%);
-  width: 80vw;
-  height: 70vh;
-  padding: 20px;
-  border-radius: 10px; /* 圆角半径 */
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.5
-  ); /* 使用rgba来设置背景颜色并控制半透明度 */
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: 70vh;
+    padding: 20px;
+    border-radius: 10px; /* 圆角半径 */
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.5
+    ); /* 使用rgba来设置背景颜色并控制半透明度 */
+  }
 }
-}
-
-
-
 
 .login_form h3 {
   text-align: center;

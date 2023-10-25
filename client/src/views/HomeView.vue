@@ -7,17 +7,16 @@ import SideBarHome from "@/components/home/SideBarHome.vue";
 <template>
   <TopBar />
   <div class="home-container">
-  <SideBarHome />
-  <el-container><el-main><Welcome /></el-main></el-container>
-</div>
+    <SideBarHome />
+    <el-container
+      ><el-main><Welcome /></el-main
+    ></el-container>
+  </div>
 </template>
 
 <style scoped>
-  
-
-  
-  @media screen and (min-width: 1024px) {
-    .home-container {
+@media screen and (min-width: 1024px) {
+  .home-container {
     display: flex;
     flex-direction: row;
   }
