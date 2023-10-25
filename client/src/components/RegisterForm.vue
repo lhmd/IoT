@@ -2,7 +2,9 @@
 import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
 import type { FormProps } from "element-plus";
 import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
 import axios from "axios";
+import { el } from "element-plus/es/locale/index.mjs";
 
 const Router = useRouter();
 const labelPosition = ref<FormProps["labelPosition"]>("top");
@@ -28,6 +30,7 @@ onBeforeUnmount(() => {
 const UserRegister = reactive({
   username: "",
   password: "",
+  checkPassword: "",
   email: "",
   phone: "",
   gender: "",
@@ -36,9 +39,17 @@ const UserRegister = reactive({
 
 async function onSubmit() {
   try {
-    // 验证用户名和密码是否为空
-    if (!UserRegister.username || !UserRegister.password) {
-      alert("用户名和密码不能为空");
+    if (!UserRegister.username) {
+      ElMessage.error("用户名不能为空");
+      return;
+    } else if (!UserRegister.password) {
+      ElMessage.error("密码不能为空");
+      return;
+    } else if (!UserRegister.email) {
+      ElMessage.error("邮箱不能为空");
+      return;
+    } else if (UserRegister.checkPassword != UserRegister.password) {
+      ElMessage.error("两次密码不一致");
       return;
     }
 
@@ -51,11 +62,12 @@ async function onSubmit() {
     var isLogin = response.data.success;
     if (isLogin) {
       Router.push("/login");
-      alert("注册成功");
+      ElMessage.success("注册成功，请重新登录！");
     } else {
-      alert("注册失败");
+      ElMessage.error(response.data.message);
     }
   } catch (error) {
+      ElMessage.error("注册失败");
     console.error("请求出错：", error);
   }
 }
@@ -82,10 +94,19 @@ async function onSubmit() {
       <el-form-item
         label="密码"
         :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+        type="password"
       >
-        <el-input v-model="UserRegister.password" />
+        <el-input v-model="UserRegister.password" type="password"/>
       </el-form-item>
-      <el-form-item label="邮箱">
+      <el-form-item 
+      label="确认密码" 
+        type="password"
+      :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]">
+      <el-input v-model="UserRegister.checkPassword" type="password" autocomplete="off" />
+    </el-form-item>
+      <el-form-item 
+      label="邮箱"
+      :rules="[{ required: true, message: '请输入邮箱', trigger: 'blur' }]">
         <el-input v-model="UserRegister.email" />
       </el-form-item>
       <el-form-item label="电话">

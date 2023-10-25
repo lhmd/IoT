@@ -3,6 +3,7 @@ import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
 import type { FormProps } from "element-plus";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import { ElMessage } from "element-plus";
 
 import { useUserStore } from "@/stores/user";
 
@@ -37,7 +38,7 @@ async function onSubmit() {
   try {
     // 验证用户名和密码是否为空
     if (!UserLogin.username || !UserLogin.password) {
-      alert("用户名和密码不能为空");
+      ElMessage.error("用户名和密码不能为空"); // Use ElMessage for error message
       return;
     }
     console.log(UserLogin);
@@ -57,11 +58,13 @@ async function onSubmit() {
         response.data.user.address
       );
       userStore.setAuthenticationStatus(true);
+      ElMessage.success("登录成功，欢迎使用物联网管理系统！"); // Use ElMessage for success message
       Router.push("/home");
     } else {
-      alert("用户名或密码错误");
+      ElMessage.error("用户名或密码错误"); // Use ElMessage for error message
     }
   } catch (error) {
+      ElMessage.error("登录失败");
     console.error("请求出错：", error);
   }
 }
@@ -92,8 +95,9 @@ function onRegister() {
       <el-form-item
         label="密码"
         :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+        type="password"
       >
-        <el-input v-model="UserLogin.password" />
+        <el-input v-model="UserLogin.password" type="password"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">登录</el-button>

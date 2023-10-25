@@ -35,6 +35,9 @@ const router = createRouter({
       path: "/workspace",
       name: "workspace",
       component: WorkspaceView,
+      meta: {
+        requiresAuth: true, // Mark this route as requiring authentication
+      },
     },
   ],
 });

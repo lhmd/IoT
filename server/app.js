@@ -29,7 +29,8 @@ const User = sequelize.define('user', {
     },
     username: {
         type: Sequelize.STRING(63),
-        allowNull: false
+        allowNull: false,
+        unique: true,
     },
     password: {
         type: Sequelize.STRING(63),
@@ -37,7 +38,8 @@ const User = sequelize.define('user', {
     },
     email: {
         type: Sequelize.STRING(63),
-        allowNull: true
+        allowNull: true,
+        unique: true,
     },
     phone: {
         type: Sequelize.STRING(63),
@@ -77,7 +79,6 @@ app.use(async (ctx, next) => {
 
 router.post('/loginSubmit', async (ctx, next) => {
     try {
-        console.log("111111111111")
         const body = ctx.request.body;
         console.log(body);
 
@@ -114,28 +115,70 @@ router.post('/loginSubmit', async (ctx, next) => {
     }
 });
 
+const validator = require('validator'); // Import a library for email validation
+
 router.post('/registerSubmit', async (ctx, next) => {
     try {
         const body = ctx.request.body;
         console.log(body);
-        let user = await User.create({
-            username: body.username,
-            password: body.password,
-            email: body.email,
-            phone: body.phone,
-            gender: body.gender,
-            address: body.address,
-        });
-        
-        console.log(user);
-        ctx.body = {
-            success: true,  // 注册成功标志
-            user: user,     // 用户信息
-        };
+
+        // Check if username and password have at least 6 characters
+        if (body.username.length < 6 || body.password.length < 6) {
+            ctx.body = {
+                success: false,
+                message: '用户名和密码必须至少包含6个字符'
+            };
+        } else if (!validator.isEmail(body.email)) {
+            // Validate email format using the validator library
+            ctx.body = {
+                success: false,
+                message: '无效的邮箱格式'
+            };
+        } else {
+            // Check if the username or email already exists
+            const existingUser = await User.findOne({
+                where: { username: body.username }
+            });
+            const existingEmail = await User.findOne({
+                where: { email: body.email }
+            });
+
+            if (existingUser) {
+                ctx.body = {
+                    success: false,
+                    message: '用户名重复使用'
+                };
+            } else if (existingEmail) {
+                ctx.body = {
+                    success: false,
+                    message: '邮箱重复使用'
+                };
+            } else {
+                // Username and email are unique, create a new user
+                let user = await User.create({
+                    username: body.username,
+                    password: body.password,
+                    email: body.email,
+                    phone: body.phone,
+                    gender: body.gender,
+                    address: body.address,
+                });
+
+                console.log(user);
+                ctx.body = {
+                    success: true,
+                    user: user
+                };
+            }
+        }
+
         await next();
     } catch (e) {
-        ctx.body = 'error';
-        console.log('add_hotel error');
+        ctx.body = {
+            success: false,
+            message: '注册失败，发生错误'
+        };
+        console.log('发生错误', e);
     }
 });
 
