@@ -41,12 +41,12 @@ async function onSubmit() {
       ElMessage.error("用户名和密码不能为空"); // Use ElMessage for error message
       return;
     }
-    console.log(UserLogin);
+    // console.log(UserLogin);
     const response = await axios.post(
       "http://localhost:3310/loginSubmit",
       UserLogin
     );
-    console.log("后端返回的消息：", response.data);
+    // console.log("后端返回的消息：", response.data);
     var isLogin = response.data.success;
     if (isLogin) {
       userStore.setUserCredentials(

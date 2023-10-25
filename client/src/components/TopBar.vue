@@ -7,13 +7,13 @@
         </el-icon>
         <h2>物联网管理系统</h2>
       </div>
-      <el-menu class="el-menu-demo" mode="horizontal" :ellipsis="false" router>
+      <el-menu class="el-menu-demo" mode="horizontal" :ellipsis="false" router @select="handleSelect">
         <div class="flex-grow"></div>
         <el-menu-item index="/home" v-if="!isMobile">Home</el-menu-item>
         <el-menu-item index="/workspace" v-if="!isMobile"
           >Workspace</el-menu-item
         >
-        <el-menu-item index="/settings" v-if="!isMobile">Settings</el-menu-item>
+        <el-menu-item index="logout" v-if="!isMobile">Logout</el-menu-item>
         <el-sub-menu index="4" v-if="isMobile">
           <template #title>
             <el-icon :size="30" color="#409EFC" class="no-inherit">
@@ -22,7 +22,7 @@
           </template>
           <el-menu-item index="/home">Home</el-menu-item>
           <el-menu-item index="/workspace">Workspace</el-menu-item>
-          <el-menu-item index="/settings">Settings</el-menu-item>
+          <el-menu-item index="logout">Logout</el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-header>
@@ -31,6 +31,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
+import { useUserStore } from "@/stores/user";
+import { ElMessage } from "element-plus";
+import router from "@/router";
+
+const userStore = useUserStore();
 const isMobile = ref(false);
 
 const checkMobile = () => {
@@ -49,6 +54,15 @@ onBeforeUnmount(() => {
     checkMobile();
   });
 });
+
+const handleSelect = (index: string) => {
+  if (index === "logout") {
+    userStore.setAuthenticationStatus(false);
+    userStore.clearUserCredentials();
+    ElMessage.success("成功退出登录！");
+    router.push("/login");
+  }
+};
 </script>
 
 <style scoped>

@@ -4,7 +4,6 @@ import type { FormProps } from "element-plus";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-import { el } from "element-plus/es/locale/index.mjs";
 
 const Router = useRouter();
 const labelPosition = ref<FormProps["labelPosition"]>("top");

@@ -12,6 +12,7 @@
       <el-menu-item index="/Workspace/">查询统计</el-menu-item>
       <el-menu-item index="/Workspace/">设备信息</el-menu-item>
       <el-menu-item index="/Workspace/">设备配置</el-menu-item>
+      <el-menu-item index="/Workspace/">消息记录</el-menu-item>
     </el-menu>
   </div>
 
@@ -38,6 +39,12 @@
         <template #title>
           <el-icon><setting /></el-icon>
           <span>设备配置</span>
+        </template>
+      </el-menu-item>
+      <el-menu-item index="/Workspace/">
+        <template #title>
+          <el-icon><printer /></el-icon>
+          <span>消息记录</span>
         </template>
       </el-menu-item>
     </el-menu>
