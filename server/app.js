@@ -3,8 +3,7 @@ const koa = require('koa')
 const path = require('path');
 const static_file = require('koa-static')
 const Router=require('koa-router')
-// const bodyParser = require('koa-body')
-const bodyParser = require('koa-bodyparser'); 
+const bodyParser = require('koa-body') 
 const Sequelize = require('sequelize')
 const {Op} = require("sequelize");
 const router= new Router()
@@ -38,19 +37,19 @@ const User = sequelize.define('user', {
     },
     email: {
         type: Sequelize.STRING(63),
-        allowNull: false
+        allowNull: true
     },
     phone: {
         type: Sequelize.STRING(63),
-        allowNull: false
+        allowNull: true
     },
     gender: {
         type: Sequelize.STRING(63),
-        allowNull: false
+        allowNull: true
     },
     address: {
         type: Sequelize.STRING(63),
-        allowNull: false
+        allowNull: true
     }
 },{
     timestamps: false,
@@ -58,10 +57,9 @@ const User = sequelize.define('user', {
 });
 User.sync({force:false})
 
-// app.use(async (ctx, next) => {
-//     await bodyParser()(ctx, next);
-// });
-app.use(bodyParser());
+app.use(async (ctx, next) => {
+    await bodyParser()(ctx, next);
+});
 app.use(router.routes())
 const cors=require("koa2-cors")
 app.use(cors());
@@ -116,8 +114,33 @@ router.post('/loginSubmit', async (ctx, next) => {
     }
 });
 
+router.post('/registerSubmit', async (ctx, next) => {
+    try {
+        const body = ctx.request.body;
+        console.log(body);
+        let user = await User.create({
+            username: body.username,
+            password: body.password,
+            email: body.email,
+            phone: body.phone,
+            gender: body.gender,
+            address: body.address,
+        });
+        
+        console.log(user);
+        ctx.body = {
+            success: true,  // 注册成功标志
+            user: user,     // 用户信息
+        };
+        await next();
+    } catch (e) {
+        ctx.body = 'error';
+        console.log('add_hotel error');
+    }
+});
+
 // 静态文件使用
 // app.use(static_file(path.join(__dirname, 'static')));
 app.use(router.allowedMethods())
-app.listen(5173)
+app.listen(3310)
 console.log('success')
