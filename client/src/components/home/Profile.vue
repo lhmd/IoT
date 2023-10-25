@@ -2,6 +2,7 @@
 import { useUserStore } from "@/stores/user";
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
+import axios from "axios";
 
 const userStore = useUserStore();
 const user = reactive({
@@ -17,13 +18,30 @@ const formLabelWidth = "140px";
 
 async function modifyInfor() {
   try {
-    
+    const response = await axios.post(
+      "http://localhost:3310/modifyInfor",
+      user,
+    );
+    console.log("后端返回的消息：", response.data);
+    var isModified = response.data.success;
+    if (isModified) {
+      userStore.setUserCredentials(
+        user.username,
+        userStore.password,
+        user.email,
+        user.phone,
+        user.gender,
+        user.address,
+      );
+      ElMessage.success("修改成功！");
+    } else {
+      ElMessage.error(response.data.message);
+    }
   } catch (error) {
     ElMessage.error("修改失败");
     console.error("请求出错：", error);
   }
 }
-
 </script>
 
 <template>
@@ -37,15 +55,21 @@ async function modifyInfor() {
           >修改密码</el-button
         >
       </template>
-      <el-descriptions-item label="用户名">{{ user.username }}</el-descriptions-item>
+      <el-descriptions-item label="用户名">{{
+        user.username
+      }}</el-descriptions-item>
       <!-- <el-descriptions-item label="" :span="2"><el-button type="primary" @click="modifyUsername">修改</el-button></el-descriptions-item> -->
-      <el-descriptions-item label="性别">{{ user.gender }}</el-descriptions-item>
+      <el-descriptions-item label="性别">{{
+        user.gender
+      }}</el-descriptions-item>
       <!-- <el-descriptions-item label="" :span="2"><el-button type="primary" @click="modifyGender">修改</el-button></el-descriptions-item> -->
       <el-descriptions-item label="邮箱">{{ user.email }}</el-descriptions-item>
       <!-- <el-descriptions-item label="" :span="2"><el-button type="primary" @click="modifyEmail">修改</el-button></el-descriptions-item> -->
       <el-descriptions-item label="电话">{{ user.phone }}</el-descriptions-item>
       <!-- <el-descriptions-item label="" :span="2"><el-button type="primary" @click="modifyPhone">修改</el-button></el-descriptions-item> -->
-      <el-descriptions-item label="地址">{{ user.address }}</el-descriptions-item>
+      <el-descriptions-item label="地址">{{
+        user.address
+      }}</el-descriptions-item>
       <!-- <el-descriptions-item label="" :span="2"><el-button type="primary" @click="modifyAddress">修改</el-button></el-descriptions-item> -->
     </el-descriptions>
   </div>
@@ -70,8 +94,8 @@ async function modifyInfor() {
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-            <el-button @click="dialogInforVisible = false">取消</el-button>
-            <el-button @click="modifyInfor">提交</el-button>
+        <el-button @click="dialogInforVisible = false">取消</el-button>
+        <el-button @click="modifyInfor">提交</el-button>
       </span>
     </template>
   </el-dialog>
