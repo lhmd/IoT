@@ -1,43 +1,35 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 const userStore = useUserStore();
-const name = userStore.username;
+var username = userStore.username;
+const email = userStore.email;
+const phone = userStore.phone;
+const address = userStore.address;
+const gender = userStore.gender;
+import { computed, ref } from 'vue'
+
 </script>
 
 <template>
-  <div class="welcome-box">
-    <h2>您好，{{ name }}，欢迎使用物联网管理系统</h2>
-    <el-carousel indicator-position="outside" class="carousel">
-      <el-carousel-item v-for="item in 4" :key="item"> </el-carousel-item>
-    </el-carousel>
-  </div>
+  <el-descriptions
+    title="个人信息"
+    :column="2"
+  >
+    <el-descriptions-item label="用户名">{{ username }}</el-descriptions-item>
+    <el-descriptions-item label="" :span="2"><el-button type="primary">Primary</el-button></el-descriptions-item>
+    <el-descriptions-item label="邮箱">{{ email }}</el-descriptions-item>
+    <el-descriptions-item label="" :span="2"><el-button type="primary">Primary</el-button></el-descriptions-item>
+    <el-descriptions-item label="Remarks">
+      <el-tag size="small">School</el-tag>
+    </el-descriptions-item>
+    <el-descriptions-item label="Address"
+      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    </el-descriptions-item>
+  </el-descriptions>
 </template>
 
 <style>
-.welcome-box {
-  width: 100%;
-  height: 100%;
-  background-color: #f5f7fa;
-  position: relative;
-  align-items: center;
-}
-.carousel {
-  /* width: 60vw;
-  height: 50vh; */
-  background-color: #3a8ee6;
-  top: 5vh;
-  align-self: center;
-}
-.el-carousel__item:nth-child(3) {
-  background-color: #1f4d92;
-}
-.el-carousel__item:nth-child(4) {
-  background-color: #ac3636;
-}
-.el-carousel__item:nth-child(5) {
-  background-color: #1eba29;
-}
-.el-carousel__item:nth-child(6) {
-  background-color: #f5f7fa;
+.el-descriptions {
+  margin-top: 20px;
 }
 </style>

@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import WorkspaceView from "../views/WorkspaceView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
+import ProfileView from "../views/ProfileView.vue";
 
 import { useUserStore } from "@/stores/user";
 
@@ -34,7 +35,7 @@ const router = createRouter({
     {
       path: "/home/profile",
       name: "profile",
-      component: HomeView,
+      component: ProfileView,
       meta: {
         requiresAuth: true, // Mark this route as requiring authentication
       },
