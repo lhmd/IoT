@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TopBar from "../components/TopBar.vue";
-import AboutInfor from "@/components/home/AboutInfor.vue";
+import TopBar from "@/components/TopBar.vue";
+import Welcome from "@/components/home/Welcome.vue";
 import SideBarHome from "@/components/home/SideBarHome.vue";
 </script>
 
@@ -9,7 +9,7 @@ import SideBarHome from "@/components/home/SideBarHome.vue";
   <div class="home-container">
     <SideBarHome />
     <el-container
-      ><el-main><AboutInfor /></el-main
+      ><el-main><Welcome /></el-main
     ></el-container>
   </div>
 </template>

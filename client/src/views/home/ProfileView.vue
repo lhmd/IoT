@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import TopBar from "../components/TopBar.vue";
-import SideBarWorkspace from "@/components/workspace/SideBarWorkspace.vue";
+import TopBar from "@/components/TopBar.vue";
+import Profile from "@/components/home/Profile.vue";
+import SideBarHome from "@/components/home/SideBarHome.vue";
 </script>
 
 <template>
   <TopBar />
   <div class="home-container">
-    <SideBarWorkspace />
-    <el-container><el-main></el-main></el-container>
+    <SideBarHome />
+    <el-container
+      ><el-main><Profile /></el-main
+    ></el-container>
   </div>
 </template>
 

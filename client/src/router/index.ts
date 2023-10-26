@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import WorkspaceView from "../views/WorkspaceView.vue";
-import LoginView from "../views/LoginView.vue";
-import RegisterView from "../views/RegisterView.vue";
-import ProfileView from "../views/ProfileView.vue";
-import AboutView from "../views/AboutView.vue";
+import HomeView from "@/views/home/HomeView.vue";
+import WorkspaceView from "@/views/workspace/StatisticsView.vue";
+import LoginView from "@/views/LoginView.vue";
+import RegisterView from "@/views/RegisterView.vue";
+import ProfileView from "@/views/home/ProfileView.vue";
+import AboutView from "@/views/home/AboutView.vue";
 
 import { useUserStore } from "@/stores/user";
 import { ElMessage } from "element-plus";
