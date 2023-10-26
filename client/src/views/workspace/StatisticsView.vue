@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import TopBar from "@/components/TopBar.vue";
 import SideBarWorkspace from "@/components/workspace/SideBarWorkspace.vue";
+import Statistics from "@/components/workspace/Statistics.vue";
 </script>
 
 <template>
   <TopBar />
   <div class="home-container">
     <SideBarWorkspace />
-    <el-container><el-main></el-main></el-container>
+    <el-container><el-main><Statistics /></el-main></el-container>
   </div>
 </template>
 

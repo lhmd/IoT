@@ -8,7 +8,6 @@
       text-color="#fff"
       active-text-color="#ffd04b"
       router
-      @select="handleSelect"
     >
       <el-menu-item index="/home">最新消息</el-menu-item>
       <el-menu-item index="/home/profile">个人中心</el-menu-item>
@@ -22,7 +21,6 @@
       class="el-menu-vertical-demo"
       popper-effect="light"
       router
-      @select="handleSelect"
     >
       <el-menu-item index="/home">
         <template #title>
@@ -69,10 +67,6 @@ onBeforeUnmount(() => {
   });
 });
 
-const handleSelect = (index: string) => {
-  activeIndex.value = index;
-  console.log(index);
-};
 </script>
 
 <style scoped>

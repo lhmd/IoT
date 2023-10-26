@@ -1,10 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/home/HomeView.vue";
-import WorkspaceView from "@/views/workspace/StatisticsView.vue";
+import StatisticsView from "@/views/workspace/StatisticsView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import ProfileView from "@/views/home/ProfileView.vue";
 import AboutView from "@/views/home/AboutView.vue";
+import DeviceView from "@/views/workspace/DeviceView.vue";
+import DeviceSetView from "@/views/workspace/DeviceSetView.vue";
+import MessageView from "@/views/workspace/MessageView.vue";
 
 import { useUserStore } from "@/stores/user";
 import { ElMessage } from "element-plus";
@@ -49,8 +52,36 @@ const router = createRouter({
     },
     {
       path: "/workspace",
+      redirect: "/workspace/statistics",
+    },
+    {
+      path: "/workspace/statistics",
       name: "workspace",
-      component: WorkspaceView,
+      component: StatisticsView,
+      meta: {
+        requiresAuth: true, // Mark this route as requiring authentication
+      },
+    },
+    {
+      path: "/workspace/device",
+      name: "device",
+      component: DeviceView,
+      meta: {
+        requiresAuth: true, // Mark this route as requiring authentication
+      },
+    },
+    {
+      path: "/workspace/device/settings",
+      name: "deviceSet",
+      component: DeviceSetView,
+      meta: {
+        requiresAuth: true, // Mark this route as requiring authentication
+      },
+    },
+    {
+      path: "/workspace/message",
+      name: "message",
+      component: MessageView,
       meta: {
         requiresAuth: true, // Mark this route as requiring authentication
       },

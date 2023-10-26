@@ -8,12 +8,11 @@
       text-color="#fff"
       active-text-color="#ffd04b"
       router
-      @select="handleSelect"
     >
-      <el-menu-item index="/workspace">查询统计</el-menu-item>
-      <el-menu-item index="/device">设备信息</el-menu-item>
-      <el-menu-item index="/message">消息记录</el-menu-item>
-      <el-menu-item index="/device/settings">设备配置</el-menu-item>
+      <el-menu-item index="/workspace/statistics">查询统计</el-menu-item>
+      <el-menu-item index="/workspace/device">设备信息</el-menu-item>
+      <el-menu-item index="/workspace/message">消息记录</el-menu-item>
+      <el-menu-item index="/workspace/device/settings">设备配置</el-menu-item>
     </el-menu>
   </div>
 
@@ -23,27 +22,26 @@
       class="el-menu-vertical-demo"
       popper-effect="light"
       router
-      @select="handleSelect"
     >
-      <el-menu-item index="/workspace">
+      <el-menu-item index="/workspace/statistics">
         <template #title>
           <el-icon><PieChart /></el-icon>
           <span>查询统计</span>
         </template>
       </el-menu-item>
-      <el-menu-item index="/device">
+      <el-menu-item index="/workspace/device">
         <template #title>
           <el-icon><location /></el-icon>
           <span>设备信息</span>
         </template>
       </el-menu-item>
-      <el-menu-item index="/message">
+      <el-menu-item index="/workspace/message">
         <template #title>
           <el-icon><printer /></el-icon>
           <span>消息记录</span>
         </template>
       </el-menu-item>
-      <el-menu-item index="/device/settings">
+      <el-menu-item index="/workspace/device/settings">
         <template #title>
           <el-icon><setting /></el-icon>
           <span>设备配置</span>
@@ -58,7 +56,7 @@ import { PieChart } from "@element-plus/icons-vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const isMobile = ref(false);
-const activeIndex = ref("/workspace");
+const activeIndex = ref("/workspace/statistics");
 
 const checkMobile = () => {
   isMobile.value = window.innerWidth < 768;
@@ -77,10 +75,6 @@ onBeforeUnmount(() => {
   });
 });
 
-const handleSelect = (index: string) => {
-  activeIndex.value = index;
-  console.log(index);
-};
 </script>
 
 <style scoped>
