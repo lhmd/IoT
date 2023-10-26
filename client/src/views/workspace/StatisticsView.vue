@@ -8,7 +8,9 @@ import Statistics from "@/components/workspace/Statistics.vue";
   <TopBar />
   <div class="home-container">
     <SideBarWorkspace />
-    <el-container><el-main><Statistics /></el-main></el-container>
+    <el-container
+      ><el-main><Statistics /></el-main
+    ></el-container>
   </div>
 </template>
 

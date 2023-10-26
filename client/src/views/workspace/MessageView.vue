@@ -8,7 +8,9 @@ import Message from "@/components/workspace/Message.vue";
   <TopBar />
   <div class="home-container">
     <SideBarWorkspace />
-    <el-container><el-main><Message /></el-main></el-container>
+    <el-container
+      ><el-main><Message /></el-main
+    ></el-container>
   </div>
 </template>
 

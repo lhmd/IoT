@@ -8,7 +8,9 @@ import Device from "@/components/workspace/Device.vue";
   <TopBar />
   <div class="home-container">
     <SideBarWorkspace />
-    <el-container><el-main><Device /></el-main></el-container>
+    <el-container
+      ><el-main><Device /></el-main
+    ></el-container>
   </div>
 </template>
 

@@ -47,7 +47,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const activeIndex = ref("/home");
+const activeIndex = ref("1");
 const isMobile = ref(false);
 
 const checkMobile = () => {
@@ -66,7 +66,6 @@ onBeforeUnmount(() => {
     checkMobile();
   });
 });
-
 </script>
 
 <style scoped>

@@ -17,7 +17,7 @@ const name = userStore.username;
 .welcome-box {
   width: 100%;
   height: 100%;
-  background-color: #f5f7fa;
+  background-color: #ffffff;
   position: relative;
   align-items: center;
 }

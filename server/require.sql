@@ -16,29 +16,29 @@ CREATE TABLE user (
 );
 
 CREATE TABLE device (
-    device_id INT AUTO_INCREMENT PRIMARY KEY,
-    device_name VARCHAR(255) NOT NULL UNIQUE,
-    device_type VARCHAR(20) NOT NULL,
-    device_status ENUM('Running', 'Fault', 'Shutdown') NOT NULL,
-    device_location VARCHAR(60) NOT NULL,
-    device_owner VARCHAR(20) NOT NULL,
-    device_description VARCHAR(255),
-    FOREIGN KEY (device_owner) REFERENCES user(username)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    type VARCHAR(20) NOT NULL,
+    status ENUM('Running', 'Fault', 'Shutdown') NOT NULL,
+    location VARCHAR(60) NOT NULL,
+    owner VARCHAR(20) NOT NULL,
+    description VARCHAR(255),
+    FOREIGN KEY (owner) REFERENCES user(username)
 );
 
 CREATE TABLE message (
-    message_id INT AUTO_INCREMENT PRIMARY KEY,
-    message_device VARCHAR(20) NOT NULL,
-    message_time VARCHAR(100) NOT NULL,
-    message_content VARCHAR(255),
-    FOREIGN KEY (message_device) REFERENCES device(device_name)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    device_name VARCHAR(255) NOT NULL,
+    time VARCHAR(100) NOT NULL,
+    content VARCHAR(255),
+    FOREIGN KEY (device_name) REFERENCES device(name)
 );
 
 INSERT INTO user (username, password, email, phone, gender, address)
 VALUES ('1', '1', 'john@example.com', '1234567890', 'Male', '123 Main St');
 
-INSERT INTO device (device_name, device_type, device_status, device_location, device_owner, device_description)
+INSERT INTO device (name, type, status, location, owner, description)
 VALUES ('test123', 'Temperature', 'Running', '123 Main St', '1', 'test123');
 
-INSERT INTO message (message_device, message_time, message_content)
+INSERT INTO message (device_name, time, content)
 VALUES ('test123', '2019-01-01 00:00:00', 'test123');

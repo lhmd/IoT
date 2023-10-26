@@ -5,33 +5,33 @@ const User = require("./user");
 const Device = sequelize.define(
   "device",
   {
-    device_id: {
+    id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    device_name: {
+    name: {
       type: Sequelize.STRING(255),
       allowNull: false,
       unique: true,
     },
-    device_type: {
+    type: {
       type: Sequelize.STRING(20),
       allowNull: false,
     },
-    device_status: {
+    status: {
       type: Sequelize.ENUM("Running", "Fault", "Shutdown"),
       allowNull: false,
     },
-    device_location: {
+    location: {
       type: Sequelize.STRING(60),
       allowNull: false,
     },
-    device_owner: {
+    owner: {
       type: Sequelize.STRING(20),
       allowNull: false,
     },
-    device_description: {
+    description: {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
@@ -44,7 +44,7 @@ const Device = sequelize.define(
 
 // 添加外键关联
 Device.belongsTo(User, {
-  foreignKey: "device_owner",
+  foreignKey: "owner",
   targetKey: "username",
 });
 

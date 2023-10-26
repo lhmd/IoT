@@ -1,18 +1,22 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
+interface Device {
+  name: string;
+  type: string;
+  status: string;
+  location: string;
+  description: string;
+  owner: string;
+  message_count: number;
+}
+
 export const useDeviceStore = defineStore("device", {
   state: () => ({
-    device_name: "",
-    device_type: "",
-    device_status: "",
-    device_location: "",
-    device_description: "",
-    device_owner: "",
-    message_count: 0,
+    devices: [] as Device[],
   }),
   actions: {
-    setDeviceInformation(
+    addDevice(
       name: string,
       type: string,
       status: string,
@@ -20,15 +24,39 @@ export const useDeviceStore = defineStore("device", {
       description: string,
       owner: string,
     ) {
-      this.device_name = name;
-      this.device_type = type;
-      this.device_status = status;
-      this.device_location = location;
-      this.device_description = description;
-      this.device_owner = owner;
+      this.devices.push({
+        name,
+        type,
+        status,
+        location,
+        description,
+        owner,
+        message_count: 0,
+      });
     },
-    setMessageCount(count: number) {
-      this.message_count = count;
+    updateDevice(name: string, deviceInfo: Partial<Device>) {
+      const deviceIndex = this.devices.findIndex((d) => d.name === name);
+      if (deviceIndex !== -1) {
+        this.devices[deviceIndex] = {
+          ...this.devices[deviceIndex],
+          ...deviceInfo,
+        };
+      }
+    },
+    removeDevice(name: string) {
+      const deviceIndex = this.devices.findIndex((d) => d.name === name);
+      if (deviceIndex !== -1) {
+        this.devices.splice(deviceIndex, 1);
+      }
+    },
+    setMessageCount(name: string, count: number) {
+      const deviceIndex = this.devices.findIndex((d) => d.name === name);
+      if (deviceIndex !== -1) {
+        this.devices[deviceIndex].message_count = count;
+      }
+    },
+    clearDevices() {
+      this.devices = [];
     },
   },
 });

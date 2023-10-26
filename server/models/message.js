@@ -5,20 +5,20 @@ const Device = require("./device"); // 引入Device模型
 const Message = sequelize.define(
   "message",
   {
-    message_id: {
+    id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    message_device: {
-      type: Sequelize.STRING(20),
+    device_name: {
+      type: Sequelize.STRING(255),
       allowNull: false,
     },
-    message_time: {
+    time: {
       type: Sequelize.STRING(100),
       allowNull: false,
     },
-    message_content: {
+    content: {
       type: Sequelize.STRING(255),
     },
   },
@@ -30,8 +30,8 @@ const Message = sequelize.define(
 
 // 添加外键关联
 Message.belongsTo(Device, {
-  foreignKey: "message_device",
-  targetKey: "device_name",
+  foreignKey: "device_name",
+  targetKey: "name",
 });
 
 module.exports = Message;
