@@ -51,7 +51,12 @@ module.exports = function (router) {
           success: false,
           message: "用户名和密码必须至少包含6个字符",
         };
-      } else if (!validator.isEmail(body.email)) {
+      } else if (body.username.length > 20 || body.password.length > 20) {
+        ctx.body = {
+          success: false,
+          message: "用户名和密码必须少于20个字符",
+        };
+      }else if (!validator.isEmail(body.email)) {
         // Validate email format using the validator library
         ctx.body = {
           success: false,

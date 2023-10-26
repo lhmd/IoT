@@ -1,15 +1,5 @@
 const Sequelize = require("sequelize");
-
-const sequelize = new Sequelize("iot", "root", "qwe987", {
-  host: "localhost",
-  dialect: "mysql",
-  pool: {
-    max: 1000,
-    min: 0,
-    idle: 30000,
-  },
-});
-
+const sequelize = require("../config/database");
 // 定义数据库表
 const User = sequelize.define(
   "user",
@@ -20,29 +10,29 @@ const User = sequelize.define(
       autoIncrement: true,
     },
     username: {
-      type: Sequelize.STRING(63),
+      type: Sequelize.STRING(20),
       allowNull: false,
       unique: true,
     },
     password: {
-      type: Sequelize.STRING(63),
+      type: Sequelize.STRING(20),
       allowNull: false,
     },
     email: {
-      type: Sequelize.STRING(63),
+      type: Sequelize.STRING(60),
       allowNull: true,
       unique: true,
     },
     phone: {
-      type: Sequelize.STRING(63),
+      type: Sequelize.STRING(20),
       allowNull: true,
     },
     gender: {
-      type: Sequelize.STRING(63),
+      type: Sequelize.STRING(20),
       allowNull: true,
     },
     address: {
-      type: Sequelize.STRING(63),
+      type: Sequelize.STRING(60),
       allowNull: true,
     },
   },
