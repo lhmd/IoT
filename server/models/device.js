@@ -39,7 +39,7 @@ const Device = sequelize.define(
   {
     timestamps: false,
     freezeTableName: true,
-  }
+  },
 );
 
 // 添加外键关联

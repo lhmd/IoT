@@ -15,7 +15,7 @@ const Message = sequelize.define(
       allowNull: false,
     },
     message_time: {
-      type: Sequelize.STRING(20),
+      type: Sequelize.STRING(100),
       allowNull: false,
     },
     message_content: {
@@ -25,7 +25,7 @@ const Message = sequelize.define(
   {
     timestamps: false,
     freezeTableName: true,
-  }
+  },
 );
 
 // 添加外键关联

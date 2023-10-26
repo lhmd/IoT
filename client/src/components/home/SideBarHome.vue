@@ -8,6 +8,7 @@
       text-color="#fff"
       active-text-color="#ffd04b"
       router
+      @select="handleSelect"
     >
       <el-menu-item index="/home">最新消息</el-menu-item>
       <el-menu-item index="/home/profile">个人中心</el-menu-item>
@@ -17,10 +18,11 @@
 
   <div class="sidebar" v-if="!isMobile">
     <el-menu
-      default-active="1"
+      :default-active="activeIndex"
       class="el-menu-vertical-demo"
       popper-effect="light"
       router
+      @select="handleSelect"
     >
       <el-menu-item index="/home">
         <template #title>
@@ -47,7 +49,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const activeIndex = ref("1");
+const activeIndex = ref("/home");
 const isMobile = ref(false);
 
 const checkMobile = () => {
@@ -66,6 +68,11 @@ onBeforeUnmount(() => {
     checkMobile();
   });
 });
+
+const handleSelect = (index: string) => {
+  activeIndex.value = index;
+  console.log(index);
+};
 </script>
 
 <style scoped>

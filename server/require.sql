@@ -1,6 +1,8 @@
 create database if not exists `iot`;
 use iot;
 
+drop table if exists `message`;
+drop table if exists `device`;
 drop table if exists `user`;
 
 CREATE TABLE user (
@@ -27,10 +29,16 @@ CREATE TABLE device (
 CREATE TABLE message (
     message_id INT AUTO_INCREMENT PRIMARY KEY,
     message_device VARCHAR(20) NOT NULL,
-    message_time VARCHAR(20) NOT NULL,
+    message_time VARCHAR(100) NOT NULL,
     message_content VARCHAR(255),
     FOREIGN KEY (message_device) REFERENCES device(device_name)
 );
 
 INSERT INTO user (username, password, email, phone, gender, address)
-VALUES ('test123', 'test123', 'john@example.com', '1234567890', 'Male', '123 Main St');
+VALUES ('1', '1', 'john@example.com', '1234567890', 'Male', '123 Main St');
+
+INSERT INTO device (device_name, device_type, device_status, device_location, device_owner, device_description)
+VALUES ('test123', 'Temperature', 'Running', '123 Main St', '1', 'test123');
+
+INSERT INTO message (message_device, message_time, message_content)
+VALUES ('test123', '2019-01-01 00:00:00', 'test123');
