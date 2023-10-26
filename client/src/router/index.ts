@@ -7,6 +7,7 @@ import ProfileView from "../views/ProfileView.vue";
 import AboutView from "../views/AboutView.vue";
 
 import { useUserStore } from "@/stores/user";
+import { ElMessage } from "element-plus";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,7 +66,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       // 用户未登录，重定向到登录页面或其他处理逻辑
-      alert("请重新登录！");
+      ElMessage.warning("请重新登录！");
       next("/login");
     }
   } else {

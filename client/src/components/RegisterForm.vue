@@ -6,7 +6,7 @@ import { ElMessage } from "element-plus";
 import axios from "axios";
 
 const Router = useRouter();
-const labelPosition = ref<FormProps["labelPosition"]>("top");
+const labelPosition = ref<FormProps["labelPosition"]>("right");
 const size = ref("middle");
 
 const UserRegister = reactive({
@@ -149,7 +149,7 @@ async function onSubmit() {
 }
 
 @media screen and (max-width: 1024px) {
-  .register_form.mobile {
+  .register_form {
     position: absolute;
     top: 60vh;
     left: 50vw;
