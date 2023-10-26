@@ -4,6 +4,7 @@ import WorkspaceView from "../views/WorkspaceView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import ProfileView from "../views/ProfileView.vue";
+import AboutView from "../views/AboutView.vue";
 
 import { useUserStore } from "@/stores/user";
 
@@ -43,7 +44,7 @@ const router = createRouter({
     {
       path: "/about",
       name: "about",
-      component: HomeView,
+      component: AboutView,
     },
     {
       path: "/workspace",

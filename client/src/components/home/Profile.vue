@@ -6,11 +6,11 @@ import axios from "axios";
 
 const userStore = useUserStore();
 const user = reactive({
-  username: "",
-  email: "",
-  phone: "",
-  gender: "",
-  address: "",
+  username: userStore.username,
+  email: userStore.email,
+  phone: userStore.phone,
+  gender: userStore.gender,
+  address: userStore.address,
 });
 const dialogPasswordVisible = ref(false);
 const dialogInforVisible = ref(false);
