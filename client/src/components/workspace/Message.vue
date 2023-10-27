@@ -171,7 +171,7 @@ onMounted(() => {
   loadDevice();
 });
 
-const onValue1Change = (value) => {
+const onValue1Change = (value: string) => {
   if (value !== '') {
     status.value = 1;
     displayMessages.value = true;
@@ -183,7 +183,7 @@ const onValue1Change = (value) => {
   }
 };
 
-const onValue2Change = (value) => {
+const onValue2Change = (value: string) => {
   if (value !== '') {
     status.value = 2;
     displayMessages.value = true;
