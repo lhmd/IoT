@@ -5,13 +5,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted  } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useDeviceStore } from "@/stores/device";
 import { useMessageStore } from "@/stores/message";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-import AMapLoader from '@amap/amap-jsapi-loader';
+import AMapLoader from "@amap/amap-jsapi-loader";
 
 const userStore = useUserStore();
 const deviceStore = useDeviceStore();
@@ -34,8 +34,7 @@ interface MessageType {
 }
 let device: DeviceType[] = [];
 let deviceCount = ref(0);
-let message: MessageType[] = [];
-let messageCount = ref(0);
+var markers: any = [];
 let onlineDeviceCount = ref(0);
 let map: any = null;
 async function loadDevice() {
@@ -60,60 +59,27 @@ async function loadDevice() {
         );
         // 将location转换为经纬度，location格式为"116.3978, 39.9023"
         let location = device[i].location.split(",");
-        // console.log(location);
-        
+        let marker = new AMap.Marker({
+          position: [location[0], location[1]],
+          map: map,
+        });
+        map.add(marker);
+        markers.push(marker);
+        marker.setLabel({
+          direction: "right",
+          // offset: new AMap.Pixel(10, 0), //设置文本标注偏移量
+          content: device[i].name, //设置文本标注内容
+        });
       }
       // console.log(deviceTypeCount.value[0]);
       deviceCount.value = device.length;
       // ElMessage.success("加载设备信息成功");
-      await loadMessage();
+      map.setFitView();
     } else {
       ElMessage.error(response.data.message);
     }
   } catch (error) {
     ElMessage.error("加载设备信息请求出错");
-    console.error("请求出错：", error);
-  }
-}
-
-async function loadMessage() {
-  try {
-    const response2 = await axios.post(
-      "http://localhost:3310/getMessage",
-      deviceStore.devices,
-    );
-    if (response2.data.success) {
-      message = response2.data.message; // 数组
-      let length = message.length;
-      messageStore.clearMessages();
-      for (let i = 0; i < length; i++) {
-        messageStore.addMessage(
-          message[i].device_name,
-          message[i].time,
-          message[i].content,
-          message[i].location,
-        );
-      }
-      // 记录每个设备的消息数量
-      for (let i = 0; i < deviceStore.devices.length; i++) {
-        let count = 0;
-        for (let j = 0; j < messageStore.messages.length; j++) {
-          if (
-            deviceStore.devices[i].name === messageStore.messages[j].device_name
-          ) {
-            count++;
-          }
-        }
-        deviceStore.devices[i].message_count = count;
-      }
-      // console.log("这是message", messageStore.messages);
-      messageCount.value = message.length;
-      // ElMessage.success("加载设备消息成功");
-    } else {
-      ElMessage.error(response2.data.message);
-    }
-  } catch (error) {
-    ElMessage.error("加载设备消息请求出错");
     console.error("请求出错：", error);
   }
 }
@@ -127,6 +93,7 @@ onMounted(() => {
     .then((AMap) => {
       map = new AMap.Map("map-container", {
         // 设置地图容器id
+        pitch: 35,
         viewMode: "3D", // 是否为3D地图模式
         zoom: 11, // 初始化地图级别
         center: [116.397428, 39.90923], // 初始化地图中心点位置
@@ -141,6 +108,10 @@ onMounted(() => {
 onUnmounted(() => {
   map.destroy();
 });
+
+function removeMarkers(){
+        map.remove(markers);
+    }
 </script>
 
 <style scoped>
@@ -157,5 +128,4 @@ onUnmounted(() => {
   position: relative;
   align-items: center;
 }
-
 </style>

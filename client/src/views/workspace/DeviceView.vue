@@ -6,9 +6,7 @@ import Device from "@/components/workspace/Device.vue";
 
 <template>
   <TopBar />
-  <div class="home-container">
-    <SideBarWorkspace /><Device />
-  </div>
+  <div class="home-container"><SideBarWorkspace /><Device /></div>
 </template>
 
 <style scoped>

@@ -13,7 +13,12 @@ export const useMessageStore = defineStore("message", {
     messages: [] as Message[],
   }),
   actions: {
-    addMessage(device_name: string, time: string, content: string, location: string) {
+    addMessage(
+      device_name: string,
+      time: string,
+      content: string,
+      location: string,
+    ) {
       this.messages.push({
         device_name,
         time,
@@ -21,7 +26,12 @@ export const useMessageStore = defineStore("message", {
         location,
       });
     },
-    removeMessage(device_name: string, time: string, content: string, location: string) {
+    removeMessage(
+      device_name: string,
+      time: string,
+      content: string,
+      location: string,
+    ) {
       const messageIndex = this.messages.findIndex(
         (m) =>
           m.device_name === device_name &&
