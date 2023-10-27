@@ -24,6 +24,7 @@ interface MessageType {
   device_name: "";
   time: "";
   content: "";
+  location: string;
 }
 let device: DeviceType[] = [];
 let deviceCount = ref(0);
@@ -107,6 +108,7 @@ async function loadMessage() {
           message[i].device_name,
           message[i].time,
           message[i].content,
+          message[i].location,
         );
       }
       // 记录每个设备的消息数量
@@ -160,7 +162,8 @@ function drawCharts() {
     },
     legend: {
       orient: "vertical",
-      left: "right",
+      right: "right",
+      // left: "right",
       data: deviceTypeData.map((item) => item.name),
     },
     series: [
@@ -201,7 +204,7 @@ function drawCharts2() {
     },
     legend: {
       orient: "vertical",
-      left: "right",
+      right: "right",
       data: deviceMessageCount.map((item) => item.name),
     },
     series: [
@@ -291,11 +294,11 @@ onMounted(() => {
     <div class="chart-container">
       <div
         ref="chartDom"
-        style="width: 20vw; height: 50vh; margin-left: 10vw"
+        style="width: 30vw; height: 50vh; margin-left: 5vw"
       ></div>
       <div
         ref="chartDom2"
-        style="width: 20vw; height: 50vh; margin-right: 10vw"
+        style="width: 30vw; height: 50vh; margin-right: 10vw"
       ></div>
     </div>
   </div>

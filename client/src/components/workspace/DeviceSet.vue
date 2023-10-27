@@ -36,11 +36,6 @@ interface DeviceType {
   owner: string;
   message_count: number;
 }
-interface MessageType {
-  device_name: "";
-  time: "";
-  content: "";
-}
 let device: DeviceType[] = [];
 let deviceCount = ref(0);
 let onlineDeviceCount = ref(0);

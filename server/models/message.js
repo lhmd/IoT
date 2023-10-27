@@ -21,6 +21,9 @@ const Message = sequelize.define(
     content: {
       type: Sequelize.STRING(255),
     },
+    location: {
+      type: Sequelize.STRING(60),
+    },
   },
   {
     timestamps: false,

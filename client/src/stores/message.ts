@@ -5,6 +5,7 @@ interface Message {
   device_name: string;
   time: string;
   content: string;
+  location: string;
 }
 
 export const useMessageStore = defineStore("message", {
@@ -12,14 +13,15 @@ export const useMessageStore = defineStore("message", {
     messages: [] as Message[],
   }),
   actions: {
-    addMessage(device_name: string, time: string, content: string) {
+    addMessage(device_name: string, time: string, content: string, location: string) {
       this.messages.push({
         device_name,
         time,
         content,
+        location,
       });
     },
-    removeMessage(device_name: string, time: string, content: string) {
+    removeMessage(device_name: string, time: string, content: string, location: string) {
       const messageIndex = this.messages.findIndex(
         (m) =>
           m.device_name === device_name &&

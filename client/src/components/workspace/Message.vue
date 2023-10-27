@@ -30,6 +30,7 @@ interface MessageType {
   device_name: "";
   time: "";
   content: "";
+  location: string;
 }
 let device: DeviceType[] = [];
 let deviceCount = ref(0);
@@ -141,6 +142,7 @@ async function loadMessage() {
           message[i].device_name,
           message[i].time,
           message[i].content,
+          message[i].location,
         );
       }
       // 记录每个设备的消息数量
@@ -251,16 +253,16 @@ const loadMessagesForDeviceType = (deviceType: string) => {
       <ul>
         <li v-for="(message, index) in displayedMessages" :key="index">
           <p>
-            <el-icon name="el-icon-info" size="20"><Open /></el-icon>
-            设备名: {{ message.device_name }}
-          </p>
-          <p>
             <el-icon name="el-icon-time"><timer /></el-icon>
             时间: {{ message.time }}
           </p>
           <p>
             <el-icon name="el-icon-document"><Coin /></el-icon>
             内容: {{ message.content }}
+          </p>
+          <p>
+            <el-icon name="el-icon-location"><Location /></el-icon>
+            位置: {{ message.location }}
           </p>
         </li>
       </ul>

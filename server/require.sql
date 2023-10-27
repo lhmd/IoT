@@ -20,6 +20,7 @@ CREATE TABLE device (
     name VARCHAR(255) NOT NULL UNIQUE,
     type ENUM('Sensor', 'Camera', 'Actuator', 'Gateway', 'Lock', 'Tracker') NOT NULL,
     status ENUM('Running', 'Fault', 'Shutdown') NOT NULL,
+    -- 该设备最新发出消息时的位置，初始值为“home”
     location VARCHAR(60) NOT NULL,
     owner VARCHAR(20) NOT NULL,
     description VARCHAR(255),
@@ -30,52 +31,35 @@ CREATE TABLE message (
     id INT AUTO_INCREMENT PRIMARY KEY,
     device_name VARCHAR(255) NOT NULL,
     time VARCHAR(100) NOT NULL,
+    -- 经纬度表示位置
+    location VARCHAR(60),
     content VARCHAR(255),
     FOREIGN KEY (device_name) REFERENCES device(name) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO user (username, password, email, phone, gender, address)
-VALUES ('1', '1', 'john@example.com', '1234567890', 'Male', '123 Main St');
-
-INSERT INTO device (name, type, status, location, owner, description)
-VALUES ('test123', 'Actuator', 'Shutdown', '123 Main St', '1', 'test123');
-
-INSERT INTO message (device_name, time, content)
-VALUES ('test123', '2019-01-01 00:00:00', 'test123');
-
--- 插入随机用户数据
+-- 插入用户数据
 INSERT INTO user (username, password, email, phone, gender, address)
 VALUES
-    ('user1', 'password1', 'user1@example.com', '1234567890', 'Male', '123 Main St'),
-    ('user2', 'password2', 'user2@example.com', '9876543210', 'Female', '456 Elm St'),
-    ('user3', 'password3', 'user3@example.com', '5555555555', 'Male', '789 Oak St'),
-    ('user4', 'password4', 'user4@example.com', '1111111111', 'Female', '987 Maple St'),
-    ('user5', 'password5', 'user5@example.com', '9999999999', 'Male', '654 Birch St');
+    ('1', '1', '1@email.com', '123-456-7890', 'Male', '123 Main St'),
+    ('user2', 'password2', 'user2@email.com', '987-654-3210', 'Female', '456 Elm St'),
+    ('user3', 'password3', 'user3@email.com', '555-555-5555', 'Male', '789 Oak St');
 
--- 插入随机设备数据
+-- 插入设备数据
 INSERT INTO device (name, type, status, location, owner, description)
 VALUES
-    ('Device1', 'Sensor', 'Running', 'Location1', 'user1', 'Sensor device'),
-    ('Device2', 'Camera', 'Fault', 'Location2', 'user2', 'Camera device'),
-    ('Device3', 'Sensor', 'Shutdown', 'Location3', 'user1', 'Sensor device'),
-    ('Device4', 'Camera', 'Running', 'Location4', 'user3', 'Camera device'),
-    ('Device5', 'Sensor', 'Running', 'Location5', 'user4', 'Sensor device');
+    ('Sensor1', 'Sensor', 'Running', '40.7128,-74.0060', '1', 'Temperature sensor'),
+    ('Camera1', 'Camera', 'Running', '34.0522,-118.2437', 'user2', 'Security camera'),
+    ('Actuator1', 'Actuator', 'Running', '51.5074,-0.1278', '1', 'Light control'),
+    ('Gateway1', 'Gateway', 'Running', '52.5200,13.4050', 'user3', 'IoT gateway'),
+    ('Lock1', 'Lock', 'Running', '48.8566,2.3522', 'user2', 'Smart lock'),
+    ('Tracker1', 'Tracker', 'Running', '37.7749,-122.4194', '1', 'Asset tracker');
 
--- 插入随机消息数据
-INSERT INTO message (device_name, time, content)
+-- 插入消息数据
+INSERT INTO message (device_name, time, location, content)
 VALUES
-    ('Device1', '2023-10-26 10:00:00', 'Sensor data 1'),
-    ('Device2', '2023-10-26 10:15:00', 'Camera data 1'),
-    ('Device3', '2023-10-26 10:30:00', 'Sensor data 2'),
-    ('Device4', '2023-10-26 10:45:00', 'Camera data 2'),
-    ('Device5', '2023-10-26 11:00:00', 'Sensor data 3'),
-    ('Device1', '2023-10-26 11:15:00', 'Sensor data 4'),
-    ('Device2', '2023-10-26 11:30:00', 'Camera data 3'),
-    ('Device3', '2023-10-26 11:45:00', 'Sensor data 5'),
-    ('Device4', '2023-10-26 12:00:00', 'Camera data 4'),
-    ('Device5', '2023-10-26 12:15:00', 'Sensor data 6'),
-    ('Device1', '2023-10-26 12:30:00', 'Sensor data 7'),
-    ('Device2', '2023-10-26 12:45:00', 'Camera data 5'),
-    ('Device3', '2023-10-26 13:00:00', 'Sensor data 8'),
-    ('Device4', '2023-10-26 13:15:00', 'Camera data 6'),
-    ('Device5', '2023-10-26 13:30:00', 'Sensor data 9');
+    ('Sensor1', '2023/10/27 08:00:00', '40.7128,-74.0060', 'Temperature: 25°C'),
+    ('Camera1', '2023/10/27 08:05:00', '34.0522,-118.2437', 'Motion detected'),
+    ('Actuator1', '2023/10/27 08:10:00', '51.5074,-0.1278', 'Light turned on'),
+    ('Gateway1', '2023/10/27 08:15:00', '52.5200,13.4050', 'Connected to IoT network'),
+    ('Lock1', '2023/10/27 08:20:00', '48.8566,2.3522', 'Locked'),
+    ('Tracker1', '2023/10/27 08:25:00', '37.7749,-122.4194', 'Asset location updated');

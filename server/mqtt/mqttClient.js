@@ -38,18 +38,19 @@ client.on("message", (topic, payload) => {
   // console.log("Received Message:", topic, payload.toString());
   try {
     // 识别json字段，解析出设备名和设备信息
-    const { device_name, device_message } = JSON.parse(payload.toString());
+    const { device_name, device_message, device_location } = JSON.parse(payload.toString());
     // 当前时间
     const date = new Date();
+    console.log(date.toLocaleString(), device_name, device_message, device_location);
     // 生成message插入数据
     Message.create({
       device_name,
       time: date.toLocaleString(),
       content: device_message,
+      location: device_location,
     }).then((result) => {
       console.log("插入数据成功", result);
     });
-    // console.log(device_name, device_message);
   } catch (error) {
     console.error(error);
   }
