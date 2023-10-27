@@ -197,7 +197,7 @@ function onValue1Change() {
   removeMarkers();
   // 找到对应的设备
   let length = device.length;
-  let thisMessage = [];
+  let thisMessage: MessageType[] = [];
   let thisLocation = [];
   for (let j = 0; j < message.length; j++) {
     if (message[j].device_name === value1.value) {

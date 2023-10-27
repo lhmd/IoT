@@ -261,6 +261,10 @@ const loadMessagesForDeviceType = (deviceType: string) => {
           :style="(message.type as string) === 'Alert' ? 'color: red' : 'color: green'"
         >
           <p>
+            <el-icon name="el-icon-s-custom"><Open /></el-icon>
+            设备: {{ message.device_name }}
+          </p>
+          <p>
             <el-icon name="el-icon-time"><timer /></el-icon>
             时间: {{ message.time }}
           </p>
