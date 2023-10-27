@@ -20,7 +20,7 @@ async function modifyInfor() {
   try {
     const response = await axios.post(
       "http://localhost:3310/modifyInfor",
-      user
+      user,
     );
     console.log("后端返回的消息：", response.data);
     var isModified = response.data.success;
@@ -31,7 +31,7 @@ async function modifyInfor() {
         user.email,
         user.phone,
         user.gender,
-        user.address
+        user.address,
       );
       ElMessage.success("修改成功！");
     } else {

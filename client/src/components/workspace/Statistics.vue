@@ -38,7 +38,7 @@ async function loadDevice() {
   try {
     const response = await axios.post(
       "http://localhost:3310/getDevice",
-      userStore
+      userStore,
     );
     if (response.data.success) {
       device = response.data.device; // 数组
@@ -52,7 +52,7 @@ async function loadDevice() {
           device[i].status,
           device[i].location,
           device[i].description,
-          device[i].owner
+          device[i].owner,
         );
         if (device[i].status === "Running") {
           onlineDeviceCount.value++;
@@ -91,7 +91,7 @@ async function loadMessage() {
     // console.log("这是devices", deviceStore.devices);
     const response2 = await axios.post(
       "http://localhost:3310/getMessage",
-      deviceStore.devices
+      deviceStore.devices,
     );
     // console.log("这是response2", response2);
     if (response2.data.success) {
@@ -106,7 +106,7 @@ async function loadMessage() {
         messageStore.addMessage(
           message[i].device_name,
           message[i].time,
-          message[i].content
+          message[i].content,
         );
       }
       // 记录每个设备的消息数量
@@ -291,11 +291,11 @@ onMounted(() => {
     <div class="chart-container">
       <div
         ref="chartDom"
-        style="width: 20vw; height: 50vh; margin-left: 10vw;"
+        style="width: 20vw; height: 50vh; margin-left: 10vw"
       ></div>
       <div
         ref="chartDom2"
-        style="width: 20vw; height: 50vh; margin-right: 10vw;"
+        style="width: 20vw; height: 50vh; margin-right: 10vw"
       ></div>
     </div>
   </div>

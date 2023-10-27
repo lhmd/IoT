@@ -6,9 +6,7 @@ import SideBarHome from "@/components/home/SideBarHome.vue";
 
 <template>
   <TopBar />
-  <div class="home-container">
-    <SideBarHome /><Welcome />
-  </div>
+  <div class="home-container"><SideBarHome /><Welcome /></div>
 </template>
 
 <style scoped>

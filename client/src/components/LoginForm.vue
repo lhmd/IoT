@@ -27,7 +27,7 @@ async function onSubmit() {
     // console.log(UserLogin);
     const response = await axios.post(
       "http://localhost:3310/loginSubmit",
-      UserLogin
+      UserLogin,
     );
     // console.log("后端返回的消息：", response.data);
     var isLogin = response.data.success;
@@ -38,7 +38,7 @@ async function onSubmit() {
         response.data.user.email,
         response.data.user.phone,
         response.data.user.gender,
-        response.data.user.address
+        response.data.user.address,
       );
       userStore.setAuthenticationStatus(true);
       ElMessage.success("登录成功，欢迎使用物联网管理系统！"); // Use ElMessage for success message

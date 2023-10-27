@@ -24,7 +24,7 @@ export const useMessageStore = defineStore("message", {
         (m) =>
           m.device_name === device_name &&
           m.time === time &&
-          m.content === content
+          m.content === content,
       );
       if (messageIndex !== -1) {
         this.messages.splice(messageIndex, 1);

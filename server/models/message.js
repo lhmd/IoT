@@ -32,6 +32,8 @@ const Message = sequelize.define(
 Message.belongsTo(Device, {
   foreignKey: "device_name",
   targetKey: "name",
+  onUpdate: "CASCADE",
+  onDelete: "CASCADE",
 });
 
 module.exports = Message;

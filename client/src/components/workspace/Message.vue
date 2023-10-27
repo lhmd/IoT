@@ -5,11 +5,11 @@ import { useDeviceStore } from "@/stores/device";
 import { useMessageStore } from "@/stores/message";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-const value1 = ref('')
-const value2 = ref('')
+const value1 = ref("");
+const value2 = ref("");
 
 // 0代表还没有选择，1代表value1不为空，2代表value2不为空
-const status = ref(0)
+const status = ref(0);
 
 const options = ref<{ value: string; label: string }[]>([]);
 
@@ -40,24 +40,24 @@ let onlineDeviceCount = ref(0);
 // type有6种： 'Sensor', 'Camera', 'Actuator', 'Gateway', 'Lock', 'Tracker'
 const deviceType = [
   {
-    type: 'Sensor',
+    type: "Sensor",
   },
   {
-    type: 'Camera',
+    type: "Camera",
   },
   {
-    type: 'Actuator',
+    type: "Actuator",
   },
   {
-    type: 'Gateway',
+    type: "Gateway",
   },
   {
-    type: 'Lock',
+    type: "Lock",
   },
   {
-    type: 'Tracker',
+    type: "Tracker",
   },
-]
+];
 let deviceTypeCount = ref([0, 0, 0, 0, 0, 0]);
 
 const displayedMessages = ref<MessageType[]>([]);
@@ -67,7 +67,7 @@ async function loadDevice() {
   try {
     const response = await axios.post(
       "http://localhost:3310/getDevice",
-      userStore
+      userStore,
     );
     if (response.data.success) {
       device = response.data.device; // 数组
@@ -86,7 +86,7 @@ async function loadDevice() {
           device[i].status,
           device[i].location,
           device[i].description,
-          device[i].owner
+          device[i].owner,
         );
         if (device[i].status === "Running") {
           onlineDeviceCount.value++;
@@ -125,7 +125,7 @@ async function loadMessage() {
     // console.log("这是devices", deviceStore.devices);
     const response2 = await axios.post(
       "http://localhost:3310/getMessage",
-      deviceStore.devices
+      deviceStore.devices,
     );
     // console.log("这是response2", response2);
     if (response2.data.success) {
@@ -140,7 +140,7 @@ async function loadMessage() {
         messageStore.addMessage(
           message[i].device_name,
           message[i].time,
-          message[i].content
+          message[i].content,
         );
       }
       // 记录每个设备的消息数量
@@ -172,7 +172,7 @@ onMounted(() => {
 });
 
 const onValue1Change = (value: string) => {
-  if (value !== '') {
+  if (value !== "") {
     status.value = 1;
     displayMessages.value = true;
     loadMessagesForDevice(value);
@@ -184,7 +184,7 @@ const onValue1Change = (value: string) => {
 };
 
 const onValue2Change = (value: string) => {
-  if (value !== '') {
+  if (value !== "") {
     status.value = 2;
     displayMessages.value = true;
     loadMessagesForDeviceType(value);
@@ -196,14 +196,18 @@ const onValue2Change = (value: string) => {
 };
 
 const loadMessagesForDevice = (deviceName: string) => {
-  displayedMessages.value = message.filter((msg) => msg.device_name === deviceName);
+  displayedMessages.value = message.filter(
+    (msg) => msg.device_name === deviceName,
+  );
   ElMessage.success("加载设备消息成功");
 };
 
 const loadMessagesForDeviceType = (deviceType: string) => {
   const devicesOfType = device.filter((d) => d.type === deviceType);
   const deviceNames = devicesOfType.map((d) => d.name);
-  const messagesOfType = message.filter((msg) => deviceNames.includes(msg.device_name));
+  const messagesOfType = message.filter((msg) =>
+    deviceNames.includes(msg.device_name),
+  );
   displayedMessages.value = messagesOfType;
   ElMessage.success("加载设备消息成功");
 };
@@ -211,43 +215,56 @@ const loadMessagesForDeviceType = (deviceType: string) => {
 
 <template>
   <div class="welcome-box">
-    <el-select v-model="value1" clearable class="m-2" placeholder="选择设备" size="large" :disabled="status === 2" @change="onValue1Change">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
-  <el-select v-model="value2" clearable class="m-2" placeholder="按类型选择设备" :disabled="status === 1" @change="onValue2Change">
-    <el-option
-      v-for="item in deviceType"
-      :key="item.type"
-      :label="item.type"
-      :value="item.type"
-    />
-  </el-select>
-  <el-card v-if="displayMessages" class="m-2">
-  <h2 slot="header">Messages</h2>
-  <ul>
-    <li v-for="(message, index) in displayedMessages" :key="index">
-      <p>
-        <el-icon name="el-icon-info" size="20"><Open /></el-icon>
-        设备名: {{ message.device_name }}
-      </p>
-      <p>
-        <el-icon name="el-icon-time"><timer /></el-icon>
-        时间: {{ message.time }}
-      </p>
-      <p>
-        <el-icon name="el-icon-document"><Coin /></el-icon>
-        内容: {{ message.content }}
-      </p>
-    </li>
-  </ul>
-</el-card>
-
-
+    <el-select
+      v-model="value1"
+      clearable
+      class="m-2"
+      placeholder="选择设备"
+      size="large"
+      :disabled="status === 2"
+      @change="onValue1Change"
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+    <el-select
+      v-model="value2"
+      clearable
+      class="m-2"
+      placeholder="按类型选择设备"
+      :disabled="status === 1"
+      @change="onValue2Change"
+    >
+      <el-option
+        v-for="item in deviceType"
+        :key="item.type"
+        :label="item.type"
+        :value="item.type"
+      />
+    </el-select>
+    <el-card v-if="displayMessages" class="m-2">
+      <h2 slot="header">Messages</h2>
+      <ul>
+        <li v-for="(message, index) in displayedMessages" :key="index">
+          <p>
+            <el-icon name="el-icon-info" size="20"><Open /></el-icon>
+            设备名: {{ message.device_name }}
+          </p>
+          <p>
+            <el-icon name="el-icon-time"><timer /></el-icon>
+            时间: {{ message.time }}
+          </p>
+          <p>
+            <el-icon name="el-icon-document"><Coin /></el-icon>
+            内容: {{ message.content }}
+          </p>
+        </li>
+      </ul>
+    </el-card>
   </div>
 </template>
 

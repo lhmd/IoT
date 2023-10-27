@@ -31,7 +31,7 @@ CREATE TABLE message (
     device_name VARCHAR(255) NOT NULL,
     time VARCHAR(100) NOT NULL,
     content VARCHAR(255),
-    FOREIGN KEY (device_name) REFERENCES device(name)
+    FOREIGN KEY (device_name) REFERENCES device(name) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO user (username, password, email, phone, gender, address)
