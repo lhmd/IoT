@@ -25,6 +25,7 @@ interface MessageType {
   time: "";
   content: "";
   location: string;
+  type: "";
 }
 let device: DeviceType[] = [];
 let deviceCount = ref(0);
@@ -109,6 +110,7 @@ async function loadMessage() {
           message[i].time,
           message[i].content,
           message[i].location,
+          message[i].type,
         );
       }
       // 记录每个设备的消息数量
