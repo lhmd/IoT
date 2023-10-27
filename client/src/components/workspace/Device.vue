@@ -1,5 +1,21 @@
 <template>
   <div class="welcome-box">
+    <el-select
+      v-model="value1"
+      clearable
+      class="m-2"
+      placeholder="选择设备"
+      size="large"
+      @change="onValue1Change"
+      @clear="onClearSelect"
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
     <div id="map-container"></div>
   </div>
 </template>
@@ -37,6 +53,11 @@ let deviceCount = ref(0);
 var markers: any = [];
 let onlineDeviceCount = ref(0);
 let map: any = null;
+const options = ref<{ value: string; label: string }[]>([]);
+let message: MessageType[] = [];
+let messageCount = ref(0);
+const value1 = ref("");
+
 async function loadDevice() {
   try {
     const response = await axios.post(
@@ -45,6 +66,10 @@ async function loadDevice() {
     );
     if (response.data.success) {
       device = response.data.device; // 数组
+      options.value = device.map((d) => ({
+        value: d.name,
+        label: d.name,
+      }));
       let length = device.length;
       onlineDeviceCount.value = 0;
       deviceStore.clearDevices();
@@ -75,11 +100,60 @@ async function loadDevice() {
       deviceCount.value = device.length;
       // ElMessage.success("加载设备信息成功");
       map.setFitView();
+      await loadMessage();
     } else {
       ElMessage.error(response.data.message);
     }
   } catch (error) {
     ElMessage.error("加载设备信息请求出错");
+    console.error("请求出错：", error);
+  }
+}
+
+async function loadMessage() {
+  try {
+    // console.log("这是devices", deviceStore.devices);
+    const response2 = await axios.post(
+      "http://localhost:3310/getMessage",
+      deviceStore.devices,
+    );
+    // console.log("这是response2", response2);
+    if (response2.data.success) {
+      message = response2.data.message; // 数组
+      let length = message.length;
+      // console.log(messageStore.messages);
+      // if (messageStore.messages.length > 0) {
+      //   length = 0;
+      // }
+      messageStore.clearMessages();
+      for (let i = 0; i < length; i++) {
+        messageStore.addMessage(
+          message[i].device_name,
+          message[i].time,
+          message[i].content,
+          message[i].location,
+        );
+      }
+      // 记录每个设备的消息数量
+      for (let i = 0; i < deviceStore.devices.length; i++) {
+        let count = 0;
+        for (let j = 0; j < messageStore.messages.length; j++) {
+          if (
+            deviceStore.devices[i].name === messageStore.messages[j].device_name
+          ) {
+            count++;
+          }
+        }
+        deviceStore.devices[i].message_count = count;
+      }
+      // console.log("这是message", messageStore.messages);
+      messageCount.value = message.length;
+      // ElMessage.success("加载设备消息成功");
+    } else {
+      ElMessage.error(response2.data.message);
+    }
+  } catch (error) {
+    ElMessage.error("加载设备消息请求出错");
     console.error("请求出错：", error);
   }
 }
@@ -109,9 +183,60 @@ onUnmounted(() => {
   map.destroy();
 });
 
-function removeMarkers(){
-        map.remove(markers);
+function removeMarkers() {
+  map.remove(markers);
+}
+
+function onValue1Change() {
+  removeMarkers();
+  // 找到对应的设备
+  let length = device.length;
+  let thisMessage = [];
+  let thisLocation = [];
+  for (let j = 0; j < message.length; j++) {
+    if (message[j].device_name === value1.value) {
+      thisMessage.push(message[j]);
+      thisLocation.push(message[j].location);
     }
+  }
+  // 对thisMessage按照时间排序
+  thisMessage.sort(function (a, b) {
+    return a.time > b.time ? 1 : -1;
+  });
+  for (let i = 0; i < thisMessage.length; i++) {
+    let location = thisLocation[i].split(",");
+    let marker = new AMap.Marker({
+      position: [location[0], location[1]],
+      map: map,
+    });
+    map.add(marker);
+    markers.push(marker);
+    marker.setLabel({
+      direction: "right",
+      // offset: new AMap.Pixel(10, 0), //设置文本标注偏移量
+      content: thisMessage[i].content, //设置文本标注内容
+    });
+  }
+  // 将所有点连成线
+  var path = [];
+  for (let i = 0; i < thisLocation.length; i++) {
+    let location = thisLocation[i].split(",");
+    path.push([location[0], location[1]]);
+  }
+  var polyline = new AMap.Polyline({
+    path: path, //设置线覆盖物路径
+    strokeColor: "#3366FF", //线颜色
+    strokeOpacity: 1, //线透明度
+    strokeWeight: 5, //线宽
+    strokeStyle: "solid", //线样式
+    strokeDasharray: [10, 5], //补充线样式
+    geodesic: true, //绘制大地线
+    showDir: true,
+  });
+  map.add(polyline);
+  map.setFitView();
+}
+function onClearSelect() {}
 </script>
 
 <style scoped>
