@@ -23,7 +23,7 @@ module.exports = function (router) {
         let message = await Message.findAll({
           where: whereClause,
         });
-        console.log("这是message", message);
+        // console.log("这是message", message);
         for (let j = 0; j < message.length; j++) {
           messages.push(message[j]);
         }
@@ -34,7 +34,7 @@ module.exports = function (router) {
           success: true,
           message: messages,
         };
-        console.log("获取消息成功", messages);
+        // console.log("获取消息成功", messages);
       } else {
         ctx.body = {
           success: false,

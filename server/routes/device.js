@@ -25,7 +25,7 @@ module.exports = function (router) {
           success: true,
           device: device,
         };
-        console.log("获取设备成功");
+        // console.log("获取设备成功");
       } else {
         ctx.body = {
           success: false,
@@ -45,7 +45,7 @@ module.exports = function (router) {
     try {
       const body = ctx.request.body;
       const whereClause = {};
-      console.log(body);
+      // console.log(body);
       whereClause.name = body.oldName;
       let device = await Device.findOne({
         where: whereClause,
@@ -91,7 +91,7 @@ module.exports = function (router) {
     try {
       const body = ctx.request.body;
       const whereClause = {};
-      console.log(body);
+      // console.log(body);
       whereClause.name = body.name;
       let device = await Device.findOne({
         where: whereClause,

@@ -22,7 +22,7 @@ async function modifyInfor() {
       "http://localhost:3310/modifyInfor",
       user,
     );
-    console.log("后端返回的消息：", response.data);
+    // console.log("后端返回的消息：", response.data);
     var isModified = response.data.success;
     if (isModified) {
       userStore.setUserCredentials(

@@ -58,7 +58,7 @@ async function loadDevice() {
         if (device[i].status === "Running") {
           onlineDeviceCount.value++;
         }
-        console.log(device[i].type);
+        // console.log(device[i].type);
         // 记录每个type的设备数量
         if (device[i].type === "Sensor") {
           deviceTypeCount.value[0]++;
@@ -74,7 +74,7 @@ async function loadDevice() {
           deviceTypeCount.value[5]++;
         }
       }
-      console.log(deviceTypeCount.value[0]);
+      // console.log(deviceTypeCount.value[0]);
       deviceCount.value = device.length;
       ElMessage.success("加载设备信息成功");
       await loadMessage();

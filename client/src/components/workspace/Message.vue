@@ -146,7 +146,7 @@ async function loadMessage() {
           message[i].location,
           message[i].type,
         );
-        console.log(message[i]);
+        // console.log(message[i]);
       }
       // 记录每个设备的消息数量
       for (let i = 0; i < deviceStore.devices.length; i++) {

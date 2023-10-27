@@ -56,12 +56,12 @@ client.on("message", (topic, payload) => {
     }
     // 当前时间
     const date = new Date();
-    console.log(
-      date.toLocaleString(),
-      device_name,
-      device_message,
-      device_location,
-    );
+    // console.log(
+    //   date.toLocaleString(),
+    //   device_name,
+    //   device_message,
+    //   device_location,
+    // );
     // 生成message插入数据
     Message.create({
       device_name,
@@ -70,7 +70,7 @@ client.on("message", (topic, payload) => {
       location: device_location,
       type: type,
     }).then((result) => {
-      console.log("插入数据成功", result);
+      // console.log("插入数据成功", result);
     });
     // 用最新的message位置更新Device设备位置 
     const whereClause = {};

@@ -5,7 +5,7 @@ module.exports = function (router) {
   router.post("/loginSubmit", async (ctx, next) => {
     try {
       const body = ctx.request.body;
-      console.log(body);
+      // console.log(body);
 
       // 查询数据库以验证用户名和密码
       const user = await User.findOne({
@@ -21,7 +21,7 @@ module.exports = function (router) {
           success: true, // 登录成功标志
           user: user, // 用户信息
         };
-        console.log("登录成功");
+        // console.log("登录成功");
       } else {
         // 登录失败
         ctx.body = {
@@ -43,7 +43,7 @@ module.exports = function (router) {
   router.post("/registerSubmit", async (ctx, next) => {
     try {
       const body = ctx.request.body;
-      console.log(body);
+      // console.log(body);
 
       // Check if username and password have at least 6 characters
       if (body.username.length < 6 || body.password.length < 6) {
@@ -92,7 +92,7 @@ module.exports = function (router) {
             address: body.address,
           });
 
-          console.log(user);
+          // console.log(user);
           ctx.body = {
             success: true,
             user: user,

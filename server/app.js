@@ -13,4 +13,4 @@ corsMiddleware(app);
 routes(app);
 
 app.listen(3310);
-console.log("success");
+// console.log("success");

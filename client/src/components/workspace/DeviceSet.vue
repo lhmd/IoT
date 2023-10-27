@@ -63,7 +63,7 @@ async function loadDevice() {
         value: d.name,
         label: d.name,
       }));
-      console.log(options.value);
+      // console.log(options.value);
       let length = device.length;
       onlineDeviceCount.value = 0;
       deviceStore.clearDevices();
@@ -94,7 +94,7 @@ async function loadDevice() {
 }
 
 function onValue1Change() {
-  console.log(value1.value);
+  // console.log(value1.value);
   title.value = "修改设备";
   let length = device.length;
   for (let i = 0; i < length; i++) {
@@ -151,7 +151,7 @@ async function onSubmit() {
         "http://localhost:3310/addDevice",
         send,
       );
-      console.log("后端返回的消息：", response.data);
+      // console.log("后端返回的消息：", response.data);
       var isAdded = response.data.success;
       if (isAdded) {
         ElMessage.success("添加成功！");
@@ -188,7 +188,7 @@ async function onSubmit() {
       "http://localhost:3310/modifyDevice",
       send,
     );
-    console.log("后端返回的消息：", response.data);
+    // console.log("后端返回的消息：", response.data);
     var isModified = response.data.success;
     if (isModified) {
       ElMessage.success("修改成功！");

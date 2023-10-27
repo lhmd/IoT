@@ -37,7 +37,7 @@ export const useUserStore = defineStore("user", {
       this.phone = "";
       this.gender = "";
       this.address = "";
-      console.log("clear all user data.");
+      // console.log("clear all user data.");
     },
   },
 });

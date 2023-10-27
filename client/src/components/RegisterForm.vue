@@ -35,12 +35,12 @@ async function onSubmit() {
       return;
     }
 
-    console.log(UserRegister);
+    // console.log(UserRegister);
     const response = await axios.post(
       "http://localhost:3310/registerSubmit",
       UserRegister,
     );
-    console.log("后端返回的消息：", response.data);
+    // console.log("后端返回的消息：", response.data);
     var isLogin = response.data.success;
     if (isLogin) {
       Router.push("/login");
