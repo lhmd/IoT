@@ -21,7 +21,7 @@ CREATE TABLE device (
     type ENUM('Sensor', 'Camera', 'Actuator', 'Gateway', 'Lock', 'Tracker') NOT NULL,
     status ENUM('Running', 'Fault', 'Shutdown') NOT NULL,
     -- 该设备最新发出消息时的位置，初始值为“home”
-    location VARCHAR(60) NOT NULL,
+    location VARCHAR(60) NOT NULL DEFAULT 'home',
     owner VARCHAR(20) NOT NULL,
     description VARCHAR(255),
     FOREIGN KEY (owner) REFERENCES user(username)
@@ -34,32 +34,89 @@ CREATE TABLE message (
     -- 经纬度表示位置
     location VARCHAR(60),
     content VARCHAR(255),
+    type ENUM('Alert', 'Info') NOT NULL DEFAULT 'Info',
     FOREIGN KEY (device_name) REFERENCES device(name) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- 插入用户数据
 INSERT INTO user (username, password, email, phone, gender, address)
 VALUES
-    ('1', '1', '1@email.com', '123-456-7890', 'Male', '123 Main St'),
-    ('user2', 'password2', 'user2@email.com', '987-654-3210', 'Female', '456 Elm St'),
-    ('user3', 'password3', 'user3@email.com', '555-555-5555', 'Male', '789 Oak St');
+    ('user1', 'password1', 'user1@example.com', '123-456-7890', 'Male', '123 Main St'),
+    ('user2', 'password2', 'user2@example.com', '987-654-3210', 'Female', '456 Elm St'),
+    ('user3', 'password3', 'user3@example.com', '555-123-4567', 'Male', '789 Oak St'),
+    ('user4', 'password4', 'user4@example.com', '333-555-7777', 'Female', '321 Pine St'),
+    ('user5', 'password5', 'user5@example.com', '111-222-3333', 'Male', '456 Maple St'),
+    ('user6', 'password6', 'user6@example.com', '999-888-7777', 'Female', '654 Cedar St');
 
 -- 插入设备数据
-INSERT INTO device (name, type, status, location, owner, description)
-VALUES
-    ('Sensor1', 'Sensor', 'Running', '40.7128,-74.0060', '1', 'Temperature sensor'),
-    ('Camera1', 'Camera', 'Running', '34.0522,-118.2437', 'user2', 'Security camera'),
-    ('Actuator1', 'Actuator', 'Running', '51.5074,-0.1278', '1', 'Light control'),
-    ('Gateway1', 'Gateway', 'Running', '52.5200,13.4050', 'user3', 'IoT gateway'),
-    ('Lock1', 'Lock', 'Running', '48.8566,2.3522', 'user2', 'Smart lock'),
-    ('Tracker1', 'Tracker', 'Running', '37.7749,-122.4194', '1', 'Asset tracker');
+-- 每个用户有3-10个设备
+INSERT INTO device (name, type, status, owner, description)
+SELECT 
+    CONCAT('Device', t.num, ' of User', u.user_id),
+    CASE FLOOR(RAND() * 6)
+        WHEN 0 THEN 'Sensor'
+        WHEN 1 THEN 'Camera'
+        WHEN 2 THEN 'Actuator'
+        WHEN 3 THEN 'Gateway'
+        WHEN 4 THEN 'Lock'
+        WHEN 5 THEN 'Tracker'
+    END,
+    CASE FLOOR(RAND() * 3)
+        WHEN 0 THEN 'Running'
+        WHEN 1 THEN 'Fault'
+        WHEN 2 THEN 'Shutdown'
+    END,
+    u.username,
+    CONCAT('Description of Device', t.num, ' owned by User', u.user_id)
+FROM user u
+JOIN (
+    SELECT 1 AS num UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10
+) t;
+
+-- 更新设备的位置为"home"，初始值为“home”
+UPDATE device
+SET location = 'home';
 
 -- 插入消息数据
-INSERT INTO message (device_name, time, location, content)
-VALUES
-    ('Sensor1', '2023/10/27 08:00:00', '40.7128,-74.0060', 'Temperature: 25°C'),
-    ('Camera1', '2023/10/27 08:05:00', '34.0522,-118.2437', 'Motion detected'),
-    ('Actuator1', '2023/10/27 08:10:00', '51.5074,-0.1278', 'Light turned on'),
-    ('Gateway1', '2023/10/27 08:15:00', '52.5200,13.4050', 'Connected to IoT network'),
-    ('Lock1', '2023/10/27 08:20:00', '48.8566,2.3522', 'Locked'),
-    ('Tracker1', '2023/10/27 08:25:00', '37.7749,-122.4194', 'Asset location updated');
+-- 每台设备至少有15条消息
+INSERT INTO message (device_name, time, location, content, type)
+SELECT
+    d.name,
+    NOW() - INTERVAL t1.num HOUR,
+    CONCAT(ROUND(120 + RAND() * 20, 6), ',', ROUND(30 + RAND() * 10, 6)),
+    CONCAT('Message content from Device', t1.num, ' of User', u.user_id),
+    CASE FLOOR(RAND() * 2)
+        WHEN 0 THEN 'Alert'
+        WHEN 1 THEN 'Info'
+    END
+FROM user u
+JOIN (
+    SELECT 1 AS num UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10
+) t1
+JOIN device d ON d.owner = u.username
+WHERE (
+    SELECT COUNT(*)
+    FROM message m
+    WHERE m.device_name = d.name
+) < 15;
+
+-- 手动更新设备的location为最新消息的位置
+UPDATE device d
+JOIN (
+    SELECT
+        device_name,
+        MAX(time) AS latest_time
+    FROM message
+    GROUP BY device_name
+) latest_message ON d.name = latest_message.device_name
+SET d.location = (
+    SELECT location
+    FROM message
+    WHERE device_name = latest_message.device_name
+    AND time = latest_message.latest_time
+);
+
+-- 查看生成的测试数据
+SELECT * FROM user;
+SELECT * FROM device;
+SELECT * FROM message;

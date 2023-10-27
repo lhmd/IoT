@@ -6,6 +6,7 @@ interface Message {
   time: string;
   content: string;
   location: string;
+  type: string;
 }
 
 export const useMessageStore = defineStore("message", {
@@ -18,12 +19,14 @@ export const useMessageStore = defineStore("message", {
       time: string,
       content: string,
       location: string,
+      type: string,
     ) {
       this.messages.push({
         device_name,
         time,
         content,
         location,
+        type,
       });
     },
     removeMessage(
@@ -31,12 +34,15 @@ export const useMessageStore = defineStore("message", {
       time: string,
       content: string,
       location: string,
+      type: string,
     ) {
       const messageIndex = this.messages.findIndex(
         (m) =>
           m.device_name === device_name &&
           m.time === time &&
-          m.content === content,
+          m.content === content &&
+          m.location === location &&
+          m.type === type,
       );
       if (messageIndex !== -1) {
         this.messages.splice(messageIndex, 1);

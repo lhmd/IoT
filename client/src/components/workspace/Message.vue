@@ -30,7 +30,8 @@ interface MessageType {
   device_name: "";
   time: "";
   content: "";
-  location: string;
+  location: "";
+  type: "";
 }
 let device: DeviceType[] = [];
 let deviceCount = ref(0);
@@ -143,7 +144,9 @@ async function loadMessage() {
           message[i].time,
           message[i].content,
           message[i].location,
+          message[i].type,
         );
+        console.log(message[i]);
       }
       // 记录每个设备的消息数量
       for (let i = 0; i < deviceStore.devices.length; i++) {
@@ -251,7 +254,12 @@ const loadMessagesForDeviceType = (deviceType: string) => {
     <el-card v-if="displayMessages" class="m-2">
       <h2 slot="header">Messages</h2>
       <ul>
-        <li v-for="(message, index) in displayedMessages" :key="index">
+        <!-- 如果message的type是Alert就将这一条变成红色，否则正常 -->
+        <li
+          v-for="(message, index) in displayedMessages"
+          :key="index"
+          :style="(message.type as string) === 'Alert' ? 'color: red' : 'color: green'"
+        >
           <p>
             <el-icon name="el-icon-time"><timer /></el-icon>
             时间: {{ message.time }}

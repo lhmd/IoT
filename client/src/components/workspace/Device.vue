@@ -47,10 +47,12 @@ interface MessageType {
   time: "";
   content: "";
   location: string;
+  type: "";
 }
 let device: DeviceType[] = [];
 let deviceCount = ref(0);
 var markers: any = [];
+var polylines: any = [];
 let onlineDeviceCount = ref(0);
 let map: any = null;
 const options = ref<{ value: string; label: string }[]>([]);
@@ -132,6 +134,7 @@ async function loadMessage() {
           message[i].time,
           message[i].content,
           message[i].location,
+          message[i].type,
         );
       }
       // 记录每个设备的消息数量
@@ -184,7 +187,10 @@ onUnmounted(() => {
 });
 
 function removeMarkers() {
+  map.remove(polylines);
   map.remove(markers);
+  markers = [];
+  polylines = [];
 }
 
 function onValue1Change() {
@@ -205,17 +211,34 @@ function onValue1Change() {
   });
   for (let i = 0; i < thisMessage.length; i++) {
     let location = thisLocation[i].split(",");
-    let marker = new AMap.Marker({
-      position: [location[0], location[1]],
-      map: map,
-    });
-    map.add(marker);
-    markers.push(marker);
-    marker.setLabel({
-      direction: "right",
-      // offset: new AMap.Pixel(10, 0), //设置文本标注偏移量
-      content: thisMessage[i].content, //设置文本标注内容
-    });
+    // 如果message的type为'Alert'，显示红色
+    if (thisMessage[i].type === "Alert") {
+      let marker = new AMap.Marker({
+        position: [location[0], location[1]],
+        map: map,
+        icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png",
+      });
+      map.add(marker);
+      markers.push(marker);
+      marker.setLabel({
+        direction: "right",
+        // offset: new AMap.Pixel(10, 0), //设置文本标注偏移量
+        content: thisMessage[i].content, //设置文本标注内容
+      });
+    } else {
+      let marker = new AMap.Marker({
+        position: [location[0], location[1]],
+        map: map,
+        icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png"
+      });
+      map.add(marker);
+      markers.push(marker);
+      marker.setLabel({
+        direction: "right",
+        // offset: new AMap.Pixel(10, 0), //设置文本标注偏移量
+        content: thisMessage[i].content, //设置文本标注内容
+      });
+    }
   }
   // 将所有点连成线
   var path = [];
@@ -233,6 +256,7 @@ function onValue1Change() {
     geodesic: true, //绘制大地线
     showDir: true,
   });
+  polylines.push(polyline);
   map.add(polyline);
   map.setFitView();
 }

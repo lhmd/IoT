@@ -10,7 +10,6 @@ module.exports = function (router) {
       console.log(body);
       for (let i = 0; i < body.length; i++) {
         const whereClause = {};
-        console.log("ascvdajdvbasjd");
         if (body[i].name) {
           whereClause.device_name = body[i].name;
           // console.log(whereClause);
