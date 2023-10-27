@@ -22,7 +22,7 @@ export const useDeviceStore = defineStore("device", {
       status: string,
       location: string,
       description: string,
-      owner: string,
+      owner: string
     ) {
       this.devices.push({
         name,

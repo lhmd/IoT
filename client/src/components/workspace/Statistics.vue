@@ -6,6 +6,9 @@ import { useMessageStore } from "@/stores/message";
 import { ElMessage } from "element-plus";
 import axios from "axios";
 import { Message } from "@element-plus/icons-vue";
+import * as echarts from "echarts";
+import { de } from "element-plus/es/locale/index.mjs";
+
 const userStore = useUserStore();
 const deviceStore = useDeviceStore();
 const messageStore = useMessageStore();
@@ -28,19 +31,21 @@ let device: DeviceType[] = [];
 let deviceCount = ref(0);
 let message: MessageType[] = [];
 let messageCount = ref(0);
+let onlineDeviceCount = ref(0);
+// 用一个数组记录每个type的设备数量
+// type有6种： 'Sensor', 'Camera', 'Actuator', 'Gateway', 'Lock', 'Tracker'
+let deviceTypeCount = ref([0, 0, 0, 0, 0, 0]);
 
 async function loadDevice() {
   try {
     const response = await axios.post(
       "http://localhost:3310/getDevice",
-      userStore,
+      userStore
     );
     if (response.data.success) {
       device = response.data.device; // 数组
       let length = device.length;
-      // if (deviceStore.devices.length > 0) {
-      //   length = 0;
-      // }
+      onlineDeviceCount.value = 0;
       deviceStore.clearDevices();
       for (let i = 0; i < length; i++) {
         deviceStore.addDevice(
@@ -49,9 +54,28 @@ async function loadDevice() {
           device[i].status,
           device[i].location,
           device[i].description,
-          device[i].owner,
+          device[i].owner
         );
+        if (device[i].status === "Running") {
+          onlineDeviceCount.value++;
+        }
+        console.log(device[i].type);
+        // 记录每个type的设备数量
+        if (device[i].type === "Sensor") {
+          deviceTypeCount.value[0]++;
+        } else if (device[i].type === "Camera") {
+          deviceTypeCount.value[1]++;
+        } else if (device[i].type === "Actuator") {
+          deviceTypeCount.value[2]++;
+        } else if (device[i].type === "Gateway") {
+          deviceTypeCount.value[3]++;
+        } else if (device[i].type === "Lock") {
+          deviceTypeCount.value[4]++;
+        } else if (device[i].type === "Tracker") {
+          deviceTypeCount.value[5]++;
+        }
       }
+      console.log(deviceTypeCount.value[0]);
       deviceCount.value = device.length;
       // ElMessage.success("加载设备信息成功");
       await loadMessage();
@@ -69,7 +93,7 @@ async function loadMessage() {
     // console.log("这是devices", deviceStore.devices);
     const response2 = await axios.post(
       "http://localhost:3310/getMessage",
-      deviceStore.devices,
+      deviceStore.devices
     );
     // console.log("这是response2", response2);
     if (response2.data.success) {
@@ -84,12 +108,26 @@ async function loadMessage() {
         messageStore.addMessage(
           message[i].device_name,
           message[i].time,
-          message[i].content,
+          message[i].content
         );
+      }
+      // 记录每个设备的消息数量
+      for (let i = 0; i < deviceStore.devices.length; i++) {
+        let count = 0;
+        for (let j = 0; j < messageStore.messages.length; j++) {
+          if (
+            deviceStore.devices[i].name === messageStore.messages[j].device_name
+          ) {
+            count++;
+          }
+        }
+        deviceStore.devices[i].message_count = count;
       }
       // console.log("这是message", messageStore.messages);
       messageCount.value = message.length;
       ElMessage.success("加载设备消息成功");
+      await drawCharts();
+      await drawCharts2();
     } else {
       ElMessage.error(response2.data.message);
     }
@@ -97,6 +135,90 @@ async function loadMessage() {
     ElMessage.error("加载设备消息请求出错");
     console.error("请求出错：", error);
   }
+}
+
+const chartDom = ref(null);
+const chartDom2 = ref(null);
+
+function drawCharts() {
+  const deviceTypeData = [
+    { name: "Sensor", value: deviceTypeCount.value[0] },
+    { name: "Camera", value: deviceTypeCount.value[1] },
+    { name: "Actuator", value: deviceTypeCount.value[2] },
+    { name: "Gateway", value: deviceTypeCount.value[3] },
+    { name: "Lock", value: deviceTypeCount.value[4] },
+    { name: "Tracker", value: deviceTypeCount.value[5] },
+  ];
+  const chart = echarts.init(chartDom.value);
+
+  const option = {
+    title: {
+      text: "设备类型分布",
+      x: "center",
+    },
+    tooltip: {
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c} ({d}%)",
+    },
+    legend: {
+      orient: "vertical",
+      left: "right",
+      data: deviceTypeData.map((item) => item.name),
+    },
+    series: [
+      {
+        name: "设备类型",
+        type: "pie",
+        radius: "55%",
+        center: ["50%", "60%"],
+        data: deviceTypeData,
+        roseType: "angle",
+      },
+    ],
+  };
+
+  chart.setOption(option);
+}
+
+function drawCharts2() {
+  // 读取deviceCount个设备的设备名称和消息数量，存入数组
+  let deviceMessageCount = [];
+  for (let i = 0; i < deviceCount.value; i++) {
+    deviceMessageCount.push({
+      name: deviceStore.devices[i].name,
+      value: deviceStore.devices[i].message_count,
+    });
+  }
+
+  const chart2 = echarts.init(chartDom2.value);
+
+  const option2 = {
+    title: {
+      text: "消息分布",
+      x: "center",
+    },
+    tooltip: {
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c} ({d}%)",
+    },
+    legend: {
+      orient: "vertical",
+      left: "right",
+      data: deviceMessageCount.map((item) => item.name),
+    },
+    series: [
+      {
+        name: "设备名称",
+        type: "pie",
+        radius: "55%",
+        center: ["50%", "60%"],
+        data: deviceMessageCount,
+        roseType: "angle",
+      },
+    ],
+  };
+
+  chart2.setOption(option2);
 }
 
 onMounted(() => {
@@ -112,7 +234,7 @@ onMounted(() => {
           <el-statistic :value="deviceCount">
             <template #title>
               <div style="display: inline-flex; align-items: center">
-                设备总数
+                Total number of devices 设备总数
                 <el-tooltip
                   effect="dark"
                   content="您有使用权限的所有设备数量"
@@ -125,28 +247,17 @@ onMounted(() => {
               </div>
             </template>
           </el-statistic>
-          <div class="statistic-footer">
-            <div class="footer-item">
-              <span>than yesterday</span>
-              <span class="green">
-                24%
-                <el-icon>
-                  <CaretTop />
-                </el-icon>
-              </span>
-            </div>
-          </div>
         </div>
       </el-col>
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="693700">
+          <el-statistic :value="onlineDeviceCount">
             <template #title>
               <div style="display: inline-flex; align-items: center">
-                Monthly Active Users
+                在线设备总数
                 <el-tooltip
                   effect="dark"
-                  content="Number of users who logged into the product in one month"
+                  content="您所拥有的设备消息总数"
                   placement="top"
                 >
                   <el-icon style="margin-left: 4px" :size="12">
@@ -156,47 +267,39 @@ onMounted(() => {
               </div>
             </template>
           </el-statistic>
-          <div class="statistic-footer">
-            <div class="footer-item">
-              <span>month on month</span>
-              <span class="red">
-                12%
-                <el-icon>
-                  <CaretBottom />
-                </el-icon>
-              </span>
-            </div>
-          </div>
         </div>
       </el-col>
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="72000" title="New transactions today">
+          <el-statistic :value="messageCount">
             <template #title>
               <div style="display: inline-flex; align-items: center">
-                New transactions today
+                Total number of messages消息总数
+                <el-tooltip
+                  effect="dark"
+                  content="您所拥有的设备消息总数"
+                  placement="top"
+                >
+                  <el-icon style="margin-left: 4px" :size="12">
+                    <Warning />
+                  </el-icon>
+                </el-tooltip>
               </div>
             </template>
           </el-statistic>
-          <div class="statistic-footer">
-            <div class="footer-item">
-              <span>than yesterday</span>
-              <span class="green">
-                16%
-                <el-icon>
-                  <CaretTop />
-                </el-icon>
-              </span>
-            </div>
-            <div class="footer-item">
-              <el-icon :size="14">
-                <ArrowRight />
-              </el-icon>
-            </div>
-          </div>
         </div>
       </el-col>
     </el-row>
+    <div class="chart-container">
+      <div
+        ref="chartDom"
+        style="width: 20vw; height: 50vh; margin-left: 10vw;"
+      ></div>
+      <div
+        ref="chartDom2"
+        style="width: 20vw; height: 50vh; margin-right: 10vw;"
+      ></div>
+    </div>
   </div>
 </template>
 
@@ -208,6 +311,16 @@ onMounted(() => {
   position: relative;
   align-items: center;
   padding: 3vh;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  margin-top: 15vh;
 }
 
 :global(h2#card-usage ~ .example .example-showcase) {

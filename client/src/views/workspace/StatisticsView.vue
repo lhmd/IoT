@@ -6,12 +6,7 @@ import Statistics from "@/components/workspace/Statistics.vue";
 
 <template>
   <TopBar />
-  <div class="home-container">
-    <SideBarWorkspace />
-    <el-container
-      ><el-main><Statistics /></el-main
-    ></el-container>
-  </div>
+  <div class="home-container"><SideBarWorkspace /><Statistics /></div>
 </template>
 
 <style scoped>
