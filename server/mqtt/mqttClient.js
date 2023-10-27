@@ -1,4 +1,5 @@
 const mqtt = require("mqtt");
+const Message = require("../models/message");
 
 const host = "c9d3a117.ala.cn-hangzhou.emqxsl.cn";
 const port = "8883";
@@ -20,19 +21,36 @@ client.on("connect", () => {
   client.subscribe([topic], () => {
     console.log(`Subscribe to topic '${topic}'`);
   });
-  for (let i = 0; i < 10; i++) {
-    client.publish(
-      topic,
-      `nodejs mqtt test ${i}`,
-      { qos: 0, retain: false },
-      (error) => {
-        if (error) {
-          console.error(error);
-        }
-      },
-    );
-  }
+  // for (let i = 0; i < 10; i++) {
+  //   client.publish(
+  //     topic,
+  //     `test nodejs mqtt test ${i}`,
+  //     { qos: 0, retain: false },
+  //     (error) => {
+  //       if (error) {
+  //         console.error(error);
+  //       }
+  //     },
+  //   );
+  // }
 });
 client.on("message", (topic, payload) => {
-  console.log("Received Message:", topic, payload.toString());
+  // console.log("Received Message:", topic, payload.toString());
+  try {
+    // 识别json字段，解析出设备名和设备信息
+    const { device_name, device_message } = JSON.parse(payload.toString());
+    // 当前时间
+    const date = new Date();
+    // 生成message插入数据
+    Message.create({
+      device_name,
+      time: date.toLocaleString(),
+      content: device_message,
+    }).then((result) => {
+      console.log("插入数据成功", result);
+    });
+    // console.log(device_name, device_message);
+  } catch (error) {
+    console.error(error);
+  }
 });

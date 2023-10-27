@@ -223,7 +223,6 @@ function onClearSelect() {
   };
   title.value = "添加设备";
 }
-
 </script>
 
 <template>
