@@ -5,13 +5,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onUnmounted  } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useDeviceStore } from "@/stores/device";
 import { useMessageStore } from "@/stores/message";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-// import AMapLoader from '@amap/amap-jsapi-loader';
+import AMapLoader from '@amap/amap-jsapi-loader';
 
 const userStore = useUserStore();
 const deviceStore = useDeviceStore();
@@ -37,7 +37,7 @@ let deviceCount = ref(0);
 let message: MessageType[] = [];
 let messageCount = ref(0);
 let onlineDeviceCount = ref(0);
-
+let map: any = null;
 async function loadDevice() {
   try {
     const response = await axios.post(
@@ -118,41 +118,29 @@ async function loadMessage() {
   }
 }
 
-// 定义一个全局变量，用于存储安全配置
-declare global {
-  interface Window {
-    _AMapSecurityConfig: {
-      securityJsCode: string;
-    };
-  }
-}
-
-// 设置安全密钥
-window._AMapSecurityConfig = {
-  securityJsCode: '3c6c98cdb301fa7e0019eb7809efa0b6',
-};
-
 onMounted(() => {
-  // 添加 AMap 地图脚本
-  const script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = `https://webapi.amap.com/maps?v=1.4.15&key=c83ca085b9805ea901faa3414c91ec88`;
-  script.async = true;
-  script.onload = () => {
-    // 等待 AMap 脚本加载完毕后初始化地图
-    initMap();
-  };
-  document.head.appendChild(script);
+  AMapLoader.load({
+    key: "c83ca085b9805ea901faa3414c91ec88", // 申请好的Web端开发者Key，首次调用 load 时必填
+    version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+    plugins: [], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+  })
+    .then((AMap) => {
+      map = new AMap.Map("map-container", {
+        // 设置地图容器id
+        viewMode: "3D", // 是否为3D地图模式
+        zoom: 11, // 初始化地图级别
+        center: [116.397428, 39.90923], // 初始化地图中心点位置
+      });
+    })
+    .catch((e) => {
+      console.log(e);
+    });
   loadDevice();
 });
 
-function initMap() {
-  const map = new AMap.Map('map-container', {
-    zoom: 10, // 缩放级别
-    center: [116.397428, 39.90923] // 地图中心点
-  });
-  console.log(map);
-}
+onUnmounted(() => {
+  map.destroy();
+});
 </script>
 
 <style scoped>
