@@ -7,10 +7,7 @@ import SideBarHome from "@/components/home/SideBarHome.vue";
 <template>
   <TopBar />
   <div class="home-container">
-    <SideBarHome />
-    <el-container
-      ><el-main><Welcome /></el-main
-    ></el-container>
+    <SideBarHome /><Welcome />
   </div>
 </template>
 

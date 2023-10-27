@@ -5,9 +5,7 @@ import { useDeviceStore } from "@/stores/device";
 import { useMessageStore } from "@/stores/message";
 import { ElMessage } from "element-plus";
 import axios from "axios";
-import { Message } from "@element-plus/icons-vue";
 import * as echarts from "echarts";
-import { de } from "element-plus/es/locale/index.mjs";
 
 const userStore = useUserStore();
 const deviceStore = useDeviceStore();
@@ -77,7 +75,7 @@ async function loadDevice() {
       }
       console.log(deviceTypeCount.value[0]);
       deviceCount.value = device.length;
-      // ElMessage.success("加载设备信息成功");
+      ElMessage.success("加载设备信息成功");
       await loadMessage();
     } else {
       ElMessage.error(response.data.message);
