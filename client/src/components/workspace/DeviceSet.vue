@@ -324,4 +324,8 @@ function onClearSelect() {
   position: relative;
   align-items: center;
 }
+
+.el-input {
+  width: 100% !important;
+}
 </style>

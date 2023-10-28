@@ -19,6 +19,7 @@ import Statistics from "@/components/workspace/Statistics.vue";
 
 @media screen and (max-width: 1024px) {
   .home-container {
+    display: flex;
     flex-direction: column;
   }
 }

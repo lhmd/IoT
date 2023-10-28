@@ -162,12 +162,13 @@ function drawCharts() {
       trigger: "item",
       formatter: "{a} <br/>{b} : {c} ({d}%)",
     },
-    legend: {
-      orient: "vertical",
-      right: "right",
+    legend: null,
+    // {
+      // orient: "vertical",
+      // right: "right",
       // left: "right",
-      data: deviceTypeData.map((item) => item.name),
-    },
+      // data: deviceTypeData.map((item) => item.name),
+    // },
     series: [
       {
         name: "设备类型",
@@ -204,11 +205,12 @@ function drawCharts2() {
       trigger: "item",
       formatter: "{a} <br/>{b} : {c} ({d}%)",
     },
-    legend: {
-      orient: "vertical",
-      right: "right",
-      data: deviceMessageCount.map((item) => item.name),
-    },
+    legend: null,
+    // legend: {
+    //   orient: "vertical",
+    //   right: "right",
+    //   data: deviceMessageCount.map((item) => item.name),
+    // },
     series: [
       {
         name: "设备名称",
@@ -231,7 +233,7 @@ onMounted(() => {
 
 <template>
   <div class="welcome-box">
-    <el-row :gutter="16" class="el-row">
+    <el-row :gutter="16" class="el-row" style="max-width: 100%;">
       <el-col :span="8">
         <div class="statistic-card">
           <el-statistic :value="deviceCount">
@@ -296,11 +298,11 @@ onMounted(() => {
     <div class="chart-container">
       <div
         ref="chartDom"
-        style="width: 30vw; height: 50vh; margin-left: 5vw"
+        class="chart"
       ></div>
       <div
         ref="chartDom2"
-        style="width: 30vw; height: 50vh; margin-right: 10vw"
+        class="chart"
       ></div>
     </div>
   </div>
@@ -313,10 +315,13 @@ onMounted(() => {
   background-color: #ffffff;
   position: relative;
   align-items: center;
-  padding: 3vh;
+  /* padding: 3vh; */
 }
 
-.chart-container {
+
+
+@media screen and (min-width: 1024px) {
+  .chart-container {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -324,6 +329,29 @@ onMounted(() => {
   align-items: center;
   align-content: center;
   margin-top: 15vh;
+}
+.chart {
+  display: flex;
+  align-items: center;
+  margin-right: 10vw;
+}
+}
+
+@media screen and (max-width: 1024px) {
+  .chart-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  margin-top: 15vh;
+}
+.chart {
+  display: flex;
+  width: 100%;
+  height: 250px;
+}
 }
 
 :global(h2#card-usage ~ .example .example-showcase) {
