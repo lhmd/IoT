@@ -54,7 +54,7 @@ const size = ref("middle");
 async function loadDevice() {
   try {
     const response = await axios.post(
-      "http://localhost:3310/getDevice",
+      "http://localhost:6034/getDevice",
       userStore,
     );
     if (response.data.success) {
@@ -148,7 +148,7 @@ async function onSubmit() {
         owner: deviceModify.value.owner,
       };
       const response = await axios.post(
-        "http://localhost:3310/addDevice",
+        "http://localhost:6034/addDevice",
         send,
       );
       // console.log("后端返回的消息：", response.data);
@@ -185,7 +185,7 @@ async function onSubmit() {
       owner: deviceModify.value.owner,
     };
     const response = await axios.post(
-      "http://localhost:3310/modifyDevice",
+      "http://localhost:6034/modifyDevice",
       send,
     );
     // console.log("后端返回的消息：", response.data);

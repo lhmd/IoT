@@ -33,7 +33,7 @@ async function modifyInfor() {
     };
     // console.log("发送给后端的消息：", send);
     const response = await axios.post(
-      "http://localhost:3310/modifyInfor",
+      "http://localhost:6034/modifyInfor",
       send,
     );
     // console.log("后端返回的消息：", response.data);
@@ -69,7 +69,7 @@ async function modifyPassword() {
       password: password.password,
     };
     const response = await axios.post(
-      "http://localhost:3310/modifyPassword",
+      "http://localhost:6034/modifyPassword",
       send,
     );
     var isModified = response.data.success;

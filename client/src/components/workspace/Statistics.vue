@@ -39,7 +39,7 @@ let deviceTypeCount = ref([0, 0, 0, 0, 0, 0]);
 async function loadDevice() {
   try {
     const response = await axios.post(
-      "http://localhost:3310/getDevice",
+      "http://localhost:6034/getDevice",
       userStore,
     );
     if (response.data.success) {
@@ -92,7 +92,7 @@ async function loadMessage() {
   try {
     // console.log("这是devices", deviceStore.devices);
     const response2 = await axios.post(
-      "http://localhost:3310/getMessage",
+      "http://localhost:6034/getMessage",
       deviceStore.devices,
     );
     // console.log("这是response2", response2);

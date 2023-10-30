@@ -12,5 +12,5 @@ bodyParserMiddleware(app);
 corsMiddleware(app);
 routes(app);
 
-app.listen(3310);
+app.listen(6034);
 // console.log("success");
