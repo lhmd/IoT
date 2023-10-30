@@ -78,7 +78,11 @@ async function onSubmit() {
         :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
         type="password"
       >
-        <el-input v-model="UserRegister.password" type="password" />
+        <el-input
+          v-model="UserRegister.password"
+          type="password"
+          show-password
+        />
       </el-form-item>
       <el-form-item
         label="确认密码"

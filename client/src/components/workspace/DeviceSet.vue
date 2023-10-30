@@ -136,7 +136,7 @@ async function onSubmit() {
       return;
     }
     // 读取deviceStore中的oldName设备信息
-    let oldDevice : DeviceType;
+    let oldDevice: DeviceType;
     let length = deviceStore.devices.length;
     let i;
     for (i = 0; i < length; i++) {
