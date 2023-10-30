@@ -125,16 +125,36 @@ async function onSubmit() {
       ElMessage.error("设备位置不能为空");
       return;
     }
+    // 检查位置必须是经度,纬度的格式
+    let location = deviceModify.value.location.split(",");
+    if (location.length !== 2) {
+      ElMessage.error("设备位置格式错误");
+      return;
+    }
+    if (isNaN(Number(location[0])) || isNaN(Number(location[1]))) {
+      ElMessage.error("设备位置格式错误");
+      return;
+    }
+    // 读取deviceStore中的oldName设备信息
+    let oldDevice : DeviceType;
+    let length = deviceStore.devices.length;
+    let i;
+    for (i = 0; i < length; i++) {
+      if (deviceStore.devices[i].name === oldName.value) {
+        break;
+      }
+    }
+    oldDevice = deviceStore.devices[i];
     // 判断有没有修改设备信息
     if (
       deviceModify.value.name === oldName.value &&
-      deviceModify.value.type === deviceModify.value.type &&
-      deviceModify.value.status === deviceModify.value.status &&
-      deviceModify.value.location === deviceModify.value.location &&
-      deviceModify.value.description === deviceModify.value.description &&
-      deviceModify.value.owner === deviceModify.value.owner
+      deviceModify.value.type === oldDevice.type &&
+      deviceModify.value.status === oldDevice.status &&
+      deviceModify.value.location === oldDevice.location &&
+      deviceModify.value.description === oldDevice.description &&
+      deviceModify.value.owner === oldDevice.owner
     ) {
-      ElMessage.warning("您没有修改设备信息");
+      ElMessage.error("没有修改设备信息");
       return;
     }
     if (value1.value === "") {
@@ -301,7 +321,10 @@ function onClearSelect() {
             { required: true, message: '请输入设备位置', trigger: 'blur' },
           ]"
         >
-          <el-input v-model="deviceModify.location" />
+          <el-input
+            v-model="deviceModify.location"
+            placeholder="Format is {longitude, latitude}"
+          />
         </el-form-item>
         <el-form-item label="设备描述">
           <el-input v-model="deviceModify.description" />
