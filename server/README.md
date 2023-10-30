@@ -1,6 +1,6 @@
 # IoT
 
-This template should help get you started run this code.
+This file should help get you started run this code.
 
 I use `koa.js` and `mqttx `to setup this project.
 

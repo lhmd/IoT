@@ -1,6 +1,6 @@
 # IoT
 
-This template should help get you started run this code.
+This file should help get you started run this code.
 
 ## Recommended IDE Setup
 
