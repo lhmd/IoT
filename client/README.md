@@ -1,6 +1,6 @@
 # IoT
 
-This template should help get you started developing with Vue 3 in Vite.
+This template should help get you started run this code.
 
 ## Recommended IDE Setup
 
@@ -24,6 +24,7 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 ## Project Setup
 
 ```sh
+cd client
 npm install
 ```
 
