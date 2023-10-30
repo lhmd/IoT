@@ -195,6 +195,10 @@ function removeMarkers() {
 
 function onValue1Change() {
   removeMarkers();
+  if (value1.value === "") {
+    loadDevice();
+    return;
+  }
   // 找到对应的设备
   let length = device.length;
   let thisMessage: MessageType[] = [];
@@ -229,7 +233,7 @@ function onValue1Change() {
       let marker = new AMap.Marker({
         position: [location[0], location[1]],
         map: map,
-        icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png"
+        icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
       });
       map.add(marker);
       markers.push(marker);

@@ -258,7 +258,9 @@ const loadMessagesForDeviceType = (deviceType: string) => {
         <li
           v-for="(message, index) in displayedMessages"
           :key="index"
-          :style="(message.type as string) === 'Alert' ? 'color: red' : 'color: green'"
+          :style="
+            (message.type as string) === 'Alert' ? 'color: red' : 'color: green'
+          "
         >
           <p>
             <el-icon name="el-icon-s-custom"><Open /></el-icon>

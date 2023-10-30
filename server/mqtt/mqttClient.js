@@ -42,7 +42,7 @@ client.on("message", (topic, payload) => {
     const { device_name, device_message, device_location, type } = JSON.parse(
       payload.toString(),
     );
-    if(!type) type = "Info";
+    if (!type) type = "Info";
     // type只能是Info或者Alert，location只能是经度,纬度的格式
     if (
       !device_name ||
@@ -72,7 +72,7 @@ client.on("message", (topic, payload) => {
     }).then((result) => {
       // console.log("插入数据成功", result);
     });
-    // 用最新的message位置更新Device设备位置 
+    // 用最新的message位置更新Device设备位置
     const whereClause = {};
     whereClause.name = device_name;
     Device.findOne({

@@ -325,7 +325,9 @@ function onClearSelect() {
   align-items: center;
 }
 
-.el-input {
-  width: 100% !important;
+@media screen and (max-width: 1024px) {
+  .el-input {
+    width: 100% !important;
+  }
 }
 </style>

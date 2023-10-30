@@ -77,7 +77,7 @@ async function loadDevice() {
       }
       // console.log(deviceTypeCount.value[0]);
       deviceCount.value = device.length;
-      ElMessage.success("加载设备信息成功");
+      // ElMessage.success("加载设备信息成功");
       await loadMessage();
     } else {
       ElMessage.error(response.data.message);
@@ -164,10 +164,10 @@ function drawCharts() {
     },
     legend: null,
     // {
-      // orient: "vertical",
-      // right: "right",
-      // left: "right",
-      // data: deviceTypeData.map((item) => item.name),
+    // orient: "vertical",
+    // right: "right",
+    // left: "right",
+    // data: deviceTypeData.map((item) => item.name),
     // },
     series: [
       {
@@ -233,7 +233,7 @@ onMounted(() => {
 
 <template>
   <div class="welcome-box">
-    <el-row :gutter="16" class="el-row" style="max-width: 100%;">
+    <el-row :gutter="16" class="el-row" style="max-width: 100%">
       <el-col :span="8">
         <div class="statistic-card">
           <el-statistic :value="deviceCount">
@@ -296,14 +296,8 @@ onMounted(() => {
       </el-col>
     </el-row>
     <div class="chart-container">
-      <div
-        ref="chartDom"
-        class="chart"
-      ></div>
-      <div
-        ref="chartDom2"
-        class="chart"
-      ></div>
+      <div ref="chartDom" class="chart"></div>
+      <div ref="chartDom2" class="chart"></div>
     </div>
   </div>
 </template>
@@ -318,40 +312,40 @@ onMounted(() => {
   /* padding: 3vh; */
 }
 
-
-
 @media screen and (min-width: 1024px) {
   .chart-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
-  align-content: center;
-  margin-top: 15vh;
-}
-.chart {
-  display: flex;
-  align-items: center;
-  margin-right: 10vw;
-}
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    margin-top: 15vh;
+  }
+  .chart {
+    display: flex;
+    align-items: center;
+    margin-right: 5vw;
+    width: 100%;
+    height: 350px;
+  }
 }
 
 @media screen and (max-width: 1024px) {
   .chart-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
-  align-content: center;
-  margin-top: 15vh;
-}
-.chart {
-  display: flex;
-  width: 100%;
-  height: 250px;
-}
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    margin-top: 15vh;
+  }
+  .chart {
+    display: flex;
+    width: 100%;
+    height: 250px;
+  }
 }
 
 :global(h2#card-usage ~ .example .example-showcase) {

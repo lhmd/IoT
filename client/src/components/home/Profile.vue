@@ -30,7 +30,7 @@ async function modifyInfor() {
       phone: user.phone,
       gender: user.gender,
       address: user.address,
-    }
+    };
     // console.log("发送给后端的消息：", send);
     const response = await axios.post(
       "http://localhost:3310/modifyInfor",
@@ -67,19 +67,18 @@ async function modifyPassword() {
     const send = {
       username: userStore.username,
       password: password.password,
-    }
+    };
     const response = await axios.post(
       "http://localhost:3310/modifyPassword",
       send,
     );
     var isModified = response.data.success;
-    if(isModified) {
+    if (isModified) {
       userStore.setAuthenticationStatus(false);
       userStore.clearUserCredentials();
       router.push("/login");
       ElMessage.success("修改成功，请重新登录！");
-    }
-    else {
+    } else {
       ElMessage.error(response.data.message);
     }
   } catch (error) {
@@ -87,7 +86,6 @@ async function modifyPassword() {
     console.error("请求出错：", error);
   }
 }
-
 </script>
 
 <template>
