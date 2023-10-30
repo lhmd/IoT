@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/user";
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import axios from "axios";
+import router from "@/router";
 
 const userStore = useUserStore();
 const user = reactive({
@@ -12,15 +13,28 @@ const user = reactive({
   gender: userStore.gender,
   address: userStore.address,
 });
+const password = reactive({
+  password: "",
+  checkPassword: "",
+});
 const dialogPasswordVisible = ref(false);
 const dialogInforVisible = ref(false);
 const formLabelWidth = "140px";
 
 async function modifyInfor() {
   try {
+    const send = {
+      username: userStore.username,
+      newUsername: user.username,
+      email: user.email,
+      phone: user.phone,
+      gender: user.gender,
+      address: user.address,
+    }
+    // console.log("发送给后端的消息：", send);
     const response = await axios.post(
       "http://localhost:3310/modifyInfor",
-      user,
+      send,
     );
     // console.log("后端返回的消息：", response.data);
     var isModified = response.data.success;
@@ -33,6 +47,7 @@ async function modifyInfor() {
         user.gender,
         user.address,
       );
+      // console.log("修改后的用户信息：", userStore);
       ElMessage.success("修改成功！");
     } else {
       ElMessage.error(response.data.message);
@@ -42,6 +57,37 @@ async function modifyInfor() {
     console.error("请求出错：", error);
   }
 }
+
+async function modifyPassword() {
+  try {
+    if (password.checkPassword != password.password) {
+      ElMessage.error("两次密码不一致");
+      return;
+    }
+    const send = {
+      username: userStore.username,
+      password: password.password,
+    }
+    const response = await axios.post(
+      "http://localhost:3310/modifyPassword",
+      send,
+    );
+    var isModified = response.data.success;
+    if(isModified) {
+      userStore.setAuthenticationStatus(false);
+      userStore.clearUserCredentials();
+      router.push("/login");
+      ElMessage.success("修改成功，请重新登录！");
+    }
+    else {
+      ElMessage.error(response.data.message);
+    }
+  } catch (error) {
+    ElMessage.error("修改失败");
+    console.error("请求出错：", error);
+  }
+}
+
 </script>
 
 <template>
@@ -73,6 +119,35 @@ async function modifyInfor() {
       <!-- <el-descriptions-item label="" :span="2"><el-button type="primary" @click="modifyAddress">修改</el-button></el-descriptions-item> -->
     </el-descriptions>
   </div>
+
+  <el-dialog v-model="dialogPasswordVisible" title="修改密码">
+    <el-form :model="password">
+      <el-form-item
+        label="新密码"
+        :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+        type="password"
+      >
+        <el-input v-model="password.password" type="password" />
+      </el-form-item>
+      <el-form-item
+        label="确认密码"
+        type="password"
+        :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+      >
+        <el-input
+          v-model="password.checkPassword"
+          type="password"
+          autocomplete="off"
+        />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogPasswordVisible = false">取消</el-button>
+        <el-button @click="modifyPassword">提交</el-button>
+      </span>
+    </template>
+  </el-dialog>
 
   <el-dialog v-model="dialogInforVisible" title="修改信息">
     <el-form :model="user">

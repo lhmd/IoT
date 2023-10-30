@@ -46,6 +46,8 @@ const Device = sequelize.define(
 Device.belongsTo(User, {
   foreignKey: "owner",
   targetKey: "username",
+  onUpdate: "CASCADE",
+  onDelete: "CASCADE",
 });
 
 module.exports = Device;

@@ -61,12 +61,12 @@ module.exports = function (router) {
         await device.save(); // 保存更新后的设备信息
 
         // 如果设备名被修改，更新相关的消息记录
-        if (body.oldName !== body.newName) {
-          const updateMessages = await Message.update(
-            { device_name: body.newName },
-            { where: { device_name: body.oldName } },
-          );
-        }
+        // if (body.oldName !== body.newName) {
+        //   const updateMessages = await Message.update(
+        //     { device_name: body.newName },
+        //     { where: { device_name: body.oldName } },
+        //   );
+        // }
 
         ctx.body = {
           success: true,

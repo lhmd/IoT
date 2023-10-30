@@ -109,4 +109,103 @@ module.exports = function (router) {
       console.log("发生错误", e);
     }
   });
+
+  router.post("/modifyInfor", async (ctx, next) => {
+    try {
+      const body = ctx.request.body;
+      // console.log(body);
+
+      // Check if username and password have at least 6 characters
+      if (body.newUsername.length < 6) {
+        ctx.body = {
+          success: false,
+          message: "用户名必须至少包含6个字符",
+        };
+      } else if (body.newUsername.length > 20) {
+        ctx.body = {
+          success: false,
+          message: "用户名必须少于20个字符",
+        };
+      } else if (!validator.isEmail(body.email)) {
+        // Validate email format using the validator library
+        ctx.body = {
+          success: false,
+          message: "无效的邮箱格式",
+        };
+      } else {
+        // Check if the username or email already exists
+        const existingUser = await User.findOne({
+          where: { username: body.username },
+        });
+
+        if (existingUser) {
+          existingUser.username = body.newUsername;
+          existingUser.email = body.email;
+          existingUser.phone = body.phone;
+          existingUser.gender = body.gender;
+          existingUser.address = body.address;
+          existingUser.save();
+          ctx.body = {
+            success: true,
+            user: existingUser,
+          };
+        } else {
+          ctx.body = {
+            success: false,
+            message: "用户名不存在",
+          };
+        }
+      }
+
+      await next();
+    } catch (e) {
+      ctx.body = {
+        success: false,
+        message: "修改失败，发生错误",
+      };
+      console.log("发生错误", e);
+    }
+  });
+
+  router.post("/modifyPassword", async (ctx, next) => {
+    try {
+      const body = ctx.request.body;
+      // console.log(body);
+
+      // Check if username and password have at least 6 characters
+      if (body.password.length < 6) {
+        ctx.body = {
+          success: false,
+          message: "密码必须至少包含6个字符",
+        };
+      } else {
+        // Check if the username or email already exists
+        const existingUser = await User.findOne({
+          where: { username: body.username },
+        });
+
+        if (existingUser) {
+          existingUser.password = body.password;
+          existingUser.save();
+          ctx.body = {
+            success: true,
+            user: existingUser,
+          };
+        } else {
+          ctx.body = {
+            success: false,
+            message: "用户名不存在",
+          };
+        }
+      }
+
+      await next();
+    } catch (e) {
+      ctx.body = {
+        success: false,
+        message: "修改失败，发生错误",
+      };
+      console.log("发生错误", e);
+    }
+  });
 };

@@ -24,7 +24,7 @@ CREATE TABLE device (
     location VARCHAR(60) NOT NULL DEFAULT 'home',
     owner VARCHAR(20) NOT NULL,
     description VARCHAR(255),
-    FOREIGN KEY (owner) REFERENCES user(username)
+    FOREIGN KEY (owner) REFERENCES user(username) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE message (
@@ -117,6 +117,6 @@ SET d.location = (
 );
 
 -- 查看生成的测试数据
-SELECT * FROM user;
-SELECT * FROM device;
-SELECT * FROM message;
+-- SELECT * FROM user;
+-- SELECT * FROM device;
+-- SELECT * FROM message;
