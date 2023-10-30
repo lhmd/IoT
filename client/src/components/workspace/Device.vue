@@ -33,6 +33,8 @@ const userStore = useUserStore();
 const deviceStore = useDeviceStore();
 const messageStore = useMessageStore();
 
+let AMap: any;
+
 interface DeviceType {
   name: string;
   type: string;
@@ -167,8 +169,9 @@ onMounted(() => {
     version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
     plugins: [], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
   })
-    .then((AMap) => {
-      map = new AMap.Map("map-container", {
+    .then((AMapIns) => {
+      AMap = AMapIns;
+      map = new AMapIns.Map("map-container", {
         // 设置地图容器id
         pitch: 35,
         viewMode: "3D", // 是否为3D地图模式
