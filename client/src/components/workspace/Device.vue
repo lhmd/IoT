@@ -216,7 +216,9 @@ function onValue1Change() {
   for (let i = 0; i < thisMessage.length; i++) {
     let location = thisLocation[i].split(",");
     // 如果message的type为'Alert'，显示红色
-    if (thisMessage[i].type === "Alert") {
+    let alert = "";
+    alert = "Alert"
+    if (thisMessage[i].type === alert) {
       let marker = new AMap.Marker({
         position: [location[0], location[1]],
         map: map,
