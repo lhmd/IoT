@@ -370,7 +370,8 @@ function onClearSelect() {
             >提 交</el-button
           >
           <el-button type="danger" @click="deleteDevice" size="large" round
-            >删 除</el-button>
+            >删 除</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
