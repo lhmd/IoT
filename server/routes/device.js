@@ -124,4 +124,35 @@ module.exports = function (router) {
       console.log("发生错误", e);
     }
   });
+
+  router.post("/deleteDevice", async (ctx, next) => {
+    try {
+      const body = ctx.request.body;
+      const whereClause = {};
+      // console.log(body);
+      whereClause.name = body.name;
+      let device = await Device.findOne({
+        where: whereClause,
+      });
+      if (!device) {
+        ctx.body = {
+          success: false,
+          message: "设备名不存在！",
+        };
+        return;
+      }
+      // 删除设备
+      await device.destroy();
+      ctx.body = {
+        success: true,
+        message: "删除设备成功",
+      };
+    } catch (e) {
+      ctx.body = {
+        success: false,
+        message: "删除设备失败，发生错误",
+      };
+      console.log("发生错误", e);
+    }
+  });
 };

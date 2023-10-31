@@ -225,6 +225,42 @@ async function onSubmit() {
   }
 }
 
+async function deleteDevice() {
+  try {
+    if (value1.value === "") {
+      ElMessage.error("请选择要删除的设备");
+      return;
+    }
+    const send = {
+      name: value1.value,
+    };
+    const response = await axios.post(
+      "http://localhost:6034/deleteDevice",
+      send,
+    );
+    // console.log("后端返回的消息：", response.data);
+    var isDeleted = response.data.success;
+    if (isDeleted) {
+      ElMessage.success("删除成功！");
+      deviceStore.removeDevice(value1.value);
+      let length = options.value.length;
+      for (let i = 0; i < length; i++) {
+        if (options.value[i].value === value1.value) {
+          options.value.splice(i, 1);
+          break;
+        }
+      }
+      value1.value = "";
+      onClearSelect();
+    } else {
+      ElMessage.error(response.data.message);
+    }
+  } catch (error) {
+    ElMessage.error("删除失败");
+    console.error("请求出错：", error);
+  }
+}
+
 function onClearSelect() {
   // 清空 deviceModify 内容
   deviceModify.value = {
@@ -333,6 +369,8 @@ function onClearSelect() {
           <el-button type="success" @click="onSubmit" size="large" round
             >提 交</el-button
           >
+          <el-button type="danger" @click="deleteDevice" size="large" round
+            >删 除</el-button>
         </el-form-item>
       </el-form>
     </div>
