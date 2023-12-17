@@ -53,6 +53,10 @@ async function onSubmit() {
     console.error("请求出错：", error);
   }
 }
+
+function onRegister() {
+  Router.push("/login");
+}
 </script>
 
 <template>
@@ -114,6 +118,8 @@ async function onSubmit() {
         <el-button type="success" @click="onSubmit" size="large" round
           >提 交</el-button
         >
+        <el-button type="primary" @click="onRegister" size="large" round
+          >返 回</el-button>
       </el-form-item>
     </el-form>
   </div>
