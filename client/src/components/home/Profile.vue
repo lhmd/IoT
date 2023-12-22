@@ -51,6 +51,11 @@ async function modifyInfor() {
       ElMessage.success("修改成功！");
     } else {
       ElMessage.error(response.data.message);
+      user.username = userStore.username;
+      user.email = userStore.email;
+      user.phone = userStore.phone;
+      user.gender = userStore.gender;
+      user.address = userStore.address;
     }
   } catch (error) {
     ElMessage.error("修改失败");

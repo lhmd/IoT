@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onBeforeMount, onUnmounted } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useDeviceStore } from "@/stores/device";
 import { useMessageStore } from "@/stores/message";
@@ -163,7 +163,7 @@ async function loadMessage() {
   }
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   AMapLoader.load({
     key: "c83ca085b9805ea901faa3414c91ec88", // 申请好的Web端开发者Key，首次调用 load 时必填
     version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15

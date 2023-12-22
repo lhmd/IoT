@@ -1,29 +1,35 @@
 <template>
   <div>
     <section>
-      <h2>Introduction</h2>
+      <h2>项目介绍</h2>
       <p>
-        Our IoT management system is a powerful tool that allows you to easily
-        manage and monitor your IoT devices. With features such as real-time
-        data visualization, device management, and automated alerts, our system
-        makes it easy to stay on top of your IoT infrastructure.
+        这个项目是一个物联网设备管理平台的网站开发，使用 Web 技术实现以下功能：
+      </p>
+      <li>搭建一个 mqtt 服务器，接收物联网终端模拟器的数据</li>
+      <li>实现用户注册、登录功能，验证用户信息的合法性和唯一性</li>
+      <li>
+        提供设备配置界面，创建或修改设备信息，如设备 ID、设备名称、设备类型等
+      </li>
+      <li>提供设备上报数据的查询统计界面</li>
+      <li>
+        提供地图界面展示设备信息，区分正常和告警信息，部分设备类型的历史数据可以展示成历史轨迹
+      </li>
+      <li>
+        首页提供统计信息（设备总量、在线总量、接收的数据量等），以图表方式展示（柱状体、折线图等）
+      </li>
+      <li>样式适配手机端，能够在手机浏览器/微信等应用内置的浏览器中友好显示</li>
+    </section>
+    <section>
+      <h2>开发人员</h2>
+      <p>
+        浙江大学软件工程系学生-王伟杰
       </p>
     </section>
     <section>
-      <h2>Our Team</h2>
-      <p>
-        Our team is made up of experienced developers and engineers with a deep
-        understanding of IoT technology. We have worked on a variety of IoT
-        projects, from small-scale prototypes to large-scale enterprise systems.
-      </p>
-    </section>
-    <section>
-      <h2>Contact Us</h2>
-      <p>
-        Email: info@iotmanagementsystem.com<br />
-        Phone: 555-555-5555<br />
-        Address: 123 Main St, Anytown USA
-      </p>
+      <h2>联系我们</h2>
+      <li>邮箱: 3210106034@zju.edu.cn</li>
+      <li>电话: 555-5555-5555</li>
+      <li>地址: 浙江大学玉泉校区</li>
     </section>
   </div>
 </template>

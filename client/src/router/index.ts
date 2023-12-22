@@ -86,6 +86,11 @@ const router = createRouter({
         requiresAuth: true, // Mark this route as requiring authentication
       },
     },
+    // 其他页面全部重定向到登录页
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: "/login",
+    },
   ],
 });
 

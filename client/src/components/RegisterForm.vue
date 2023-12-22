@@ -57,6 +57,21 @@ async function onSubmit() {
 function onRegister() {
   Router.push("/login");
 }
+
+const gender = [
+  {
+    value: "Male",
+    label: "男",
+  },
+  {
+    value: "Female",
+    label: "女",
+  },
+  {
+    value: "Unknown",
+    label: "其他",
+  },
+];
 </script>
 
 <template>
@@ -109,7 +124,14 @@ function onRegister() {
         <el-input v-model="UserRegister.phone" />
       </el-form-item>
       <el-form-item label="性别">
-        <el-input v-model="UserRegister.gender" />
+        <el-select v-model="UserRegister.gender">
+          <el-option
+            v-for="item in gender"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="地址">
         <el-input v-model="UserRegister.address" />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useDeviceStore } from "@/stores/device";
 import { ElMessage } from "element-plus";
@@ -106,7 +106,7 @@ function onValue1Change() {
   }
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   loadDevice();
 });
 
@@ -369,7 +369,7 @@ function onClearSelect() {
           <el-button type="success" @click="onSubmit" size="large" round
             >提 交</el-button
           >
-          <el-button type="danger" @click="deleteDevice" size="large" round
+          <el-button type="danger" @click="deleteDevice" size="large" round v-if="title === '修改设备'"
             >删 除</el-button
           >
         </el-form-item>

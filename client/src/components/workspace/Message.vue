@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useDeviceStore } from "@/stores/device";
 import { useMessageStore } from "@/stores/message";
@@ -172,7 +172,7 @@ async function loadMessage() {
   }
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   loadDevice();
 });
 
