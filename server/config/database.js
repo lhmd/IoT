@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize("iot", "root", "qwe987", {
-  host: "localhost",
+  host: "mysql",
   dialect: "mysql",
   pool: {
     max: 1000,
