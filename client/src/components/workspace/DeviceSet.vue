@@ -53,10 +53,12 @@ const size = ref("middle");
 
 async function loadDevice() {
   try {
+    console.log("loadDevice");
     const response = await axios.post(
       "http://localhost:6034/getDevice",
       userStore,
     );
+    console.log("后端返回的消息：", response.data);
     if (response.data.success) {
       device = response.data.device; // 数组
       options.value = device.map((d) => ({

@@ -6,8 +6,6 @@ services:
       dockerfile: client/Dockerfile
     ports:
       - "8080:80"
-    volumes:
-      - ./client:/app
   backend:
     build:
       context: .
