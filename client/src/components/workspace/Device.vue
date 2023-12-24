@@ -64,9 +64,10 @@ const value1 = ref("");
 
 async function loadDevice() {
   try {
+    console.log(userStore.getData)
     const response = await axios.post(
-      "http://localhost:6034/getDevice",
-      userStore.$state,
+      "/getDevice",
+      userStore.getData,
     );
     if (response.data.success) {
       device = response.data.device; // 数组
@@ -118,7 +119,7 @@ async function loadMessage() {
   try {
     // console.log("这是devices", deviceStore.devices);
     const response2 = await axios.post(
-      "http://localhost:6034/getMessage",
+      "/getMessage",
       deviceStore.devices,
     );
     // console.log("这是response2", response2);

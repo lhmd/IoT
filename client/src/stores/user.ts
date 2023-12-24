@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+// import { ref, computed } from "vue";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -40,4 +40,18 @@ export const useUserStore = defineStore("user", {
       // console.log("clear all user data.");
     },
   },
-});
+  getters:{
+    getData(state){
+      return {
+        username: state.username,
+        password: state.password,
+        isAuthenticated: state.isAuthenticated,
+        email: state.email,
+        phone: state.phone,
+        gender: state.gender,
+        address: state.address,
+      }
+    }
+    }
+  }
+);

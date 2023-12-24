@@ -1,9 +1,9 @@
 const koa = require("koa");
 const app = new koa();
 const mqttClient = require("./mqtt/mqttClient");
-// const static = require('koa-static');
 
 // 静态资源
+// const static = require('koa-static');
 // app.use(static(__dirname + '/dist'));
 
 // 其他中间件和路由的导入

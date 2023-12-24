@@ -55,8 +55,8 @@ async function loadDevice() {
   try {
     console.log("loadDevice");
     const response = await axios.post(
-      "http://localhost:6034/getDevice",
-      userStore.$state,
+      "/getDevice",
+      userStore.getData,
     );
     console.log("后端返回的消息：", response.data);
     if (response.data.success) {
@@ -170,7 +170,7 @@ async function onSubmit() {
         owner: deviceModify.value.owner,
       };
       const response = await axios.post(
-        "http://localhost:6034/addDevice",
+        "/addDevice",
         send,
       );
       // console.log("后端返回的消息：", response.data);
@@ -207,7 +207,7 @@ async function onSubmit() {
       owner: deviceModify.value.owner,
     };
     const response = await axios.post(
-      "http://localhost:6034/modifyDevice",
+      "/modifyDevice",
       send,
     );
     // console.log("后端返回的消息：", response.data);
@@ -237,7 +237,7 @@ async function deleteDevice() {
       name: value1.value,
     };
     const response = await axios.post(
-      "http://localhost:6034/deleteDevice",
+      "/deleteDevice",
       send,
     );
     // console.log("后端返回的消息：", response.data);
