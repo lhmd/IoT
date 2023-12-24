@@ -66,7 +66,7 @@ async function loadDevice() {
   try {
     const response = await axios.post(
       "http://localhost:6034/getDevice",
-      userStore,
+      userStore.$state,
     );
     if (response.data.success) {
       device = response.data.device; // 数组

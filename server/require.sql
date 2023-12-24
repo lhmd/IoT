@@ -41,12 +41,12 @@ CREATE TABLE message (
 -- 插入用户数据
 INSERT INTO user (username, password, email, phone, gender, address)
 VALUES
-    ('user111', 'password1', 'user1@example.com', '123-456-7890', 'Male', '123 Main St'),
-    ('user222', 'password2', 'user2@example.com', '987-654-3210', 'Female', '456 Elm St'),
-    ('user333', 'password3', 'user3@example.com', '555-123-4567', 'Male', '789 Oak St'),
-    ('user444', 'password4', 'user4@example.com', '333-555-7777', 'Female', '321 Pine St'),
-    ('user555', 'password5', 'user5@example.com', '111-222-3333', 'Male', '456 Maple St'),
-    ('user666', 'password6', 'user6@example.com', '999-888-7777', 'Female', '654 Cedar St');
+    ('user1', 'password1', 'user1@example.com', '123-456-7890', 'Male', '123 Main St'),
+    ('user2', 'password2', 'user2@example.com', '987-654-3210', 'Female', '456 Elm St'),
+    ('user3', 'password3', 'user3@example.com', '555-123-4567', 'Male', '789 Oak St'),
+    ('user4', 'password4', 'user4@example.com', '333-555-7777', 'Female', '321 Pine St'),
+    ('user5', 'password5', 'user5@example.com', '111-222-3333', 'Male', '456 Maple St'),
+    ('user6', 'password6', 'user6@example.com', '999-888-7777', 'Female', '654 Cedar St');
 
 -- 插入设备数据
 -- 每个用户有3-10个设备
