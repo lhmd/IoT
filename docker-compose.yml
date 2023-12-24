@@ -3,13 +3,13 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: client/Dockerfile
+      dockerfile: Dockerfile.client
     ports:
       - "8080:80"
   backend:
     build:
       context: .
-      dockerfile: server/Dockerfile
+      dockerfile: Dockerfile.server
     ports:
       - "6034:6034"
     environment:
@@ -25,9 +25,9 @@ services:
       - MYSQL_ROOT_PASSWORD=qwe987
       - MYSQL_DATABASE=iot
     ports:
-      - "3308:3306"
+      - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./server/require.sql:/docker-entrypoint-initdb.d/require.sql
+      - ./server/request.sql:/docker-entrypoint-initdb.d/request.sql
 volumes:
   mysql-data:
