@@ -15,7 +15,7 @@ COPY server/ ./
 COPY scripts/wait-for-it.sh wait-for-it.sh
 RUN chmod +x wait-for-it.sh
 
-EXPOSE 3400
+EXPOSE 6034
 
 # 启动命令
 CMD ["./wait-for-it.sh", "mysql:3306", "--", "sh", "-c", "sleep 30 && node app.js"]
