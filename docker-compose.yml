@@ -25,9 +25,9 @@ services:
       - MYSQL_ROOT_PASSWORD=qwe987
       - MYSQL_DATABASE=iot
     ports:
-      - "3307:3306"
+      - "3309:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./server/request.sql:/docker-entrypoint-initdb.d/request.sql
+      - ./server/require.sql:/docker-entrypoint-initdb.d/require.sql
 volumes:
   mysql-data:

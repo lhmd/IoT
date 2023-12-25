@@ -55,7 +55,7 @@ async function loadDevice() {
   try {
     console.log("loadDevice");
     const response = await axios.post(
-      "/getDevice",
+      "http://localhost:6034/getDevice",
       userStore.getData,
     );
     console.log("后端返回的消息：", response.data);

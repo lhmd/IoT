@@ -66,7 +66,7 @@ async function loadDevice() {
   try {
     console.log(userStore.getData)
     const response = await axios.post(
-      "/getDevice",
+      "http://localhost:6034/getDevice",
       userStore.getData,
     );
     if (response.data.success) {
@@ -119,7 +119,7 @@ async function loadMessage() {
   try {
     // console.log("这是devices", deviceStore.devices);
     const response2 = await axios.post(
-      "/getMessage",
+      "http://localhost:6034/getMessage",
       deviceStore.devices,
     );
     // console.log("这是response2", response2);
