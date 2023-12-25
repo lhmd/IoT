@@ -3,7 +3,8 @@ const app = new koa();
 const mqttClient = require("./mqtt/mqttClient");
 
 // 静态资源
-// const static = require('koa- /dist'));
+// const staticfile = require('koa-static')
+// app.use(staticfile('dist'))
 
 // 其他中间件和路由的导入
 const bodyParserMiddleware = require("./middlewares/bodyParser");
