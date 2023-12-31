@@ -22,8 +22,8 @@ npm install && npm run build
 Then copy the directory `dist` to the server folder, open `app.js`, uncomment the following two lines:
 
 ```js
-const staticfile = require('koa-static')
-app.use(staticfile('public'))
+const staticfile = require("koa-static");
+app.use(staticfile("public"));
 ```
 
 Then input the commands:

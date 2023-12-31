@@ -169,10 +169,7 @@ async function onSubmit() {
         description: deviceModify.value.description,
         owner: deviceModify.value.owner,
       };
-      const response = await axios.post(
-        "/addDevice",
-        send,
-      );
+      const response = await axios.post("/addDevice", send);
       // console.log("后端返回的消息：", response.data);
       var isAdded = response.data.success;
       if (isAdded) {
@@ -206,10 +203,7 @@ async function onSubmit() {
       description: deviceModify.value.description,
       owner: deviceModify.value.owner,
     };
-    const response = await axios.post(
-      "/modifyDevice",
-      send,
-    );
+    const response = await axios.post("/modifyDevice", send);
     // console.log("后端返回的消息：", response.data);
     var isModified = response.data.success;
     if (isModified) {
@@ -236,10 +230,7 @@ async function deleteDevice() {
     const send = {
       name: value1.value,
     };
-    const response = await axios.post(
-      "/deleteDevice",
-      send,
-    );
+    const response = await axios.post("/deleteDevice", send);
     // console.log("后端返回的消息：", response.data);
     var isDeleted = response.data.success;
     if (isDeleted) {
@@ -371,7 +362,12 @@ function onClearSelect() {
           <el-button type="success" @click="onSubmit" size="large" round
             >提 交</el-button
           >
-          <el-button type="danger" @click="deleteDevice" size="large" round v-if="title === '修改设备'"
+          <el-button
+            type="danger"
+            @click="deleteDevice"
+            size="large"
+            round
+            v-if="title === '修改设备'"
             >删 除</el-button
           >
         </el-form-item>

@@ -179,7 +179,8 @@ onBeforeMount(() => {
         zoom: 11, // 初始化地图级别
         center: [116.397428, 39.90923], // 初始化地图中心点位置
       });
-    }).then(() => {
+    })
+    .then(() => {
       loadDevice();
     })
     .catch((e) => {

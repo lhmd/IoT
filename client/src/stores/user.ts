@@ -40,8 +40,8 @@ export const useUserStore = defineStore("user", {
       // console.log("clear all user data.");
     },
   },
-  getters:{
-    getData(state){
+  getters: {
+    getData(state) {
       return {
         username: state.username,
         password: state.password,
@@ -50,8 +50,7 @@ export const useUserStore = defineStore("user", {
         phone: state.phone,
         gender: state.gender,
         address: state.address,
-      }
-    }
-    }
-  }
-);
+      };
+    },
+  },
+});

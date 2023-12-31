@@ -8,7 +8,8 @@ const name = userStore.username;
   <div class="welcome-box">
     <h2>您好，{{ name }}，欢迎使用物联网管理系统</h2>
     <el-carousel indicator-position="none" class="carousel" autoplay>
-      <el-carousel-item v-for="item in 5" :key="item" class="carousel-item"> </el-carousel-item>
+      <el-carousel-item v-for="item in 5" :key="item" class="carousel-item">
+      </el-carousel-item>
     </el-carousel>
   </div>
 </template>

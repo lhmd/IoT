@@ -141,7 +141,8 @@ const gender = [
           >提 交</el-button
         >
         <el-button type="primary" @click="onRegister" size="large" round
-          >返 回</el-button>
+          >返 回</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
