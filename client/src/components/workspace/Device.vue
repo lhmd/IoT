@@ -64,7 +64,7 @@ const value1 = ref("");
 
 async function loadDevice() {
   try {
-    console.log(userStore.getData)
+    // console.log(userStore.getData)
     const response = await axios.post(
       "http://localhost:6034/getDevice",
       userStore.getData,

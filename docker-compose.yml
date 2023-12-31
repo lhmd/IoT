@@ -12,6 +12,7 @@ services:
       dockerfile: server/Dockerfile
     ports:
       - "6034:6034"
+      - "1883:1883"
     environment:
       - DB_HOST=mysql
       - DB_USER=root

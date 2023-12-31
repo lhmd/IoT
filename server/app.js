@@ -1,6 +1,6 @@
 const koa = require("koa");
 const app = new koa();
-const mqttClient = require("./mqtt/mqttClient");
+const mqttServer = require("./mqtt/mqttServer");
 
 // 静态资源
 // const staticfile = require('koa-static')

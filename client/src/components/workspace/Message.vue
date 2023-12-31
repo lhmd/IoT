@@ -77,7 +77,7 @@ async function loadDevice() {
         value: d.name,
         label: d.name,
       }));
-      console.log(options.value);
+      // console.log(options.value);
       let length = device.length;
       onlineDeviceCount.value = 0;
       deviceStore.clearDevices();

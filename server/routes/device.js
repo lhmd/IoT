@@ -5,7 +5,7 @@ const Message = require("../models/message");
 module.exports = function (router) {
   router.post("/getDevice", async (ctx, next) => {
     try {
-      console.log("getDevice");
+      // console.log("getDevice");
       const body = ctx.request.body;
       const whereClause = {};
       if (body.username) {
@@ -20,14 +20,14 @@ module.exports = function (router) {
       let device = await Device.findAll({
         where: whereClause,
       });
-      console.log(device);
+      // console.log(device);
 
       if (device) {
         ctx.body = {
           success: true,
           device: device,
         };
-        console.log("获取设备成功");
+        // console.log("获取设备成功");
       } else {
         ctx.body = {
           success: false,

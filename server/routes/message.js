@@ -7,7 +7,7 @@ module.exports = function (router) {
     try {
       let messages = [];
       const body = ctx.request.body;
-      console.log(body);
+      // console.log(body);
       for (let i = 0; i < body.length; i++) {
         const whereClause = {};
         if (body[i].name) {
