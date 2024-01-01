@@ -43,4 +43,8 @@ That is, replace the above `npm run build` with `npm run dev` and keep the two l
 
 ## MQTT Clarification
 
-You can test sending messages to the device by downloading the program mqttx. The exact setup steps I have in [server readme file](./server/README.md), please refer to it and configure it correctly!
+```bash
+cd iotclient/target
+java -jar iotclient-1.0.0.jar
+```
+
