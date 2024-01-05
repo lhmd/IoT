@@ -41,7 +41,11 @@ See [Client Setup](https://github.com/lhmd/IoT/blob/main/client/README.md) and [
 
 That is, replace the above `npm run build` with `npm run dev` and keep the two lines in the `app.js` file commented out.
 
-## MQTT Clarification
+#### MQTT Clarification
+
+You can run the mqtt client outside of docker this way:
+
+Change `iot.properties` settings, use the uncomment part.
 
 ```bash
 cd iotclient/target

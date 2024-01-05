@@ -20,6 +20,12 @@ services:
       - DB_NAME=iot
     depends_on:
       - mysql
+  iotclient:
+    build:
+      context: ./iotclient/target
+      dockerfile: ../Dockerfile
+    depends_on:
+      - backend
   mysql:
     image: mysql:latest
     environment:

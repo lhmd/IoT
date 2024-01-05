@@ -9,7 +9,6 @@ public class IOTClient {
         int devices = 1;
         String mqttServer = "tcp://localhost:1883";
         String topic = "testapp";
-        String clientPrefix = "device";
 
         try {
             Properties properties = new Properties();
@@ -18,7 +17,6 @@ public class IOTClient {
             devices = Integer.parseInt(properties.getProperty("devices"));
             mqttServer = properties.getProperty("server");
             topic = properties.getProperty("topic");
-            clientPrefix = properties.getProperty("prefix");
 
             Vector<WorkerThread> threadVector = new Vector<WorkerThread>();
             for (int i = 0; i < devices; i++) {
